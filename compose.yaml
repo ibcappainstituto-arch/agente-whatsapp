@@ -1,0 +1,29 @@
+name: kit-windows-whatsapp
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - "127.0.0.1:3210:3210"
+    environment:
+      GATEWAY_TOKEN: ${GATEWAY_TOKEN:?Configure GATEWAY_TOKEN in .env first}
+      ALLOWED_NUMBERS: ${ALLOWED_NUMBERS:-}
+      WHATSAPP_PAIRING_CONSENT: ${WHATSAPP_PAIRING_CONSENT:-NAO}
+      DATA_DIR: /data
+    volumes:
+      - whatsapp_private:/data
+    restart: "no"
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3210/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+volumes:
+  whatsapp_private:

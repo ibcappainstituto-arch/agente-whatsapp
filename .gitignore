@@ -1,0 +1,10 @@
+.env
+config.local.json
+dados/
+**/__pycache__/
+fonte_comercial/aprovacao.json
+gateway/node_modules/
+*.log
+# Conhecimento real e revisoes ficam privados.
+fonte_comercial/*
+!fonte_comercial/servicos.modelo.csv

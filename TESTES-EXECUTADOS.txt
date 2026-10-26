@@ -1,0 +1,61 @@
+test_allowlist_vazia_bloqueia (test_agente.Runtime.test_allowlist_vazia_bloqueia) ... ok
+test_antiga_e_futura_bloqueadas (test_agente.Runtime.test_antiga_e_futura_bloqueadas) ... ok
+test_duplicado_nao_reenvia (test_agente.Runtime.test_duplicado_nao_reenvia) ... ok
+test_espelho_fabricado_nao_sai (test_agente.Runtime.test_espelho_fabricado_nao_sai) ... ok
+test_falha_ia_pausa_sem_envio (test_agente.Runtime.test_falha_ia_pausa_sem_envio) ... ok
+test_fonte_alterada_bloqueia (test_agente.Runtime.test_fonte_alterada_bloqueia) ... ok
+test_grupo_bloqueado (test_agente.Runtime.test_grupo_bloqueado) ... ok
+test_inventar_servico_pausa (test_agente.Runtime.test_inventar_servico_pausa) ... ok
+test_lid_bloqueado (test_agente.Runtime.test_lid_bloqueado) ... ok
+test_manual_pausa (test_agente.Runtime.test_manual_pausa) ... ok
+test_md_alterado_bloqueia (test_agente.Runtime.test_md_alterado_bloqueia) ... ok
+test_numero_config_estrito (test_agente.Runtime.test_numero_config_estrito) ... ok
+test_numero_fora_da_lista (test_agente.Runtime.test_numero_fora_da_lista) ... ok
+test_pedido_humano_pausa (test_agente.Runtime.test_pedido_humano_pausa) ... ok
+test_recibo_vazio_pausa (test_agente.Runtime.test_recibo_vazio_pausa) ... ok
+test_recusa_pausa_sem_ia (test_agente.Runtime.test_recusa_pausa_sem_ia) ... ok
+test_resposta_sintetica_com_recibo (test_agente.Runtime.test_resposta_sintetica_com_recibo) ... ok
+test_terceira_resposta_oferece (test_agente.Runtime.test_terceira_resposta_oferece) ... ok
+test_timeout_envio_nao_repete (test_agente.Runtime.test_timeout_envio_nao_repete) ... ok
+test_valor_vem_da_fonte_nao_ia (test_agente.Runtime.test_valor_vem_da_fonte_nao_ia) ... ok
+test_api_env_bloqueia_antes_de_qualquer_processo (test_cli_adapter.CLITests.test_api_env_bloqueia_antes_de_qualquer_processo) ... ok
+test_claude_recusa_envelope_sem_output_erro_ou_truncado (test_cli_adapter.CLITests.test_claude_recusa_envelope_sem_output_erro_ou_truncado) ... ok
+test_claude_structured_output_sem_ferramentas (test_cli_adapter.CLITests.test_claude_structured_output_sem_ferramentas) ... ok
+test_claude_wrapper_cmd_recusado (test_cli_adapter.CLITests.test_claude_wrapper_cmd_recusado) ... ok
+test_codex_recusa_json_truncado_campos_extras_tipo_errado (test_cli_adapter.CLITests.test_codex_recusa_json_truncado_campos_extras_tipo_errado) ... ok
+test_codex_stdin_arquivo_schema_sem_shell (test_cli_adapter.CLITests.test_codex_stdin_arquivo_schema_sem_shell) ... ok
+test_codex_wrapper_resolve_binario_npm_sem_shell (test_cli_adapter.CLITests.test_codex_wrapper_resolve_binario_npm_sem_shell) ... ok
+test_exit_nao_zero_nao_libera_mesmo_com_saida (test_cli_adapter.CLITests.test_exit_nao_zero_nao_libera_mesmo_com_saida) ... ok
+test_json_duplicado_nan_e_raiz_lista_bloqueados (test_cli_adapter.CLITests.test_json_duplicado_nan_e_raiz_lista_bloqueados) ... ok
+test_login_api_codex_e_claude_bloqueado (test_cli_adapter.CLITests.test_login_api_codex_e_claude_bloqueado) ... ok
+test_sem_fallback_motor_desconhecido (test_cli_adapter.CLITests.test_sem_fallback_motor_desconhecido) ... ok
+test_timeout_erro_sanitizado (test_cli_adapter.CLITests.test_timeout_erro_sanitizado) ... ok
+test_arquivo_obrigatorio_ausente_bloqueia_sem_ia (test_importacao.ImportacaoTests.test_arquivo_obrigatorio_ausente_bloqueia_sem_ia) ... ok
+test_evidencia_inventada_nao_cria_csv (test_importacao.ImportacaoTests.test_evidencia_inventada_nao_cria_csv) ... ok
+test_falha_cli_gera_pendencia_sem_aprovacao (test_importacao.ImportacaoTests.test_falha_cli_gera_pendencia_sem_aprovacao) ... ok
+test_nao_sobrescreve_csv_existente (test_importacao.ImportacaoTests.test_nao_sobrescreve_csv_existente) ... ok
+test_parcela_sem_total_nao_vira_preco_total (test_importacao.ImportacaoTests.test_parcela_sem_total_nao_vira_preco_total) ... ok
+test_pendencia_modelo_impede_catalogo (test_importacao.ImportacaoTests.test_pendencia_modelo_impede_catalogo) ... ok
+test_preco_inventado_nao_cria_csv (test_importacao.ImportacaoTests.test_preco_inventado_nao_cria_csv) ... ok
+test_preserva_seis_originais_sha_e_exige_aprovacao_separada (test_importacao.ImportacaoTests.test_preserva_seis_originais_sha_e_exige_aprovacao_separada) ... ok
+test_segredo_bloqueia_antes_da_ia (test_importacao.ImportacaoTests.test_segredo_bloqueia_antes_da_ia) ... ok
+test_symlink_bloqueia_antes_da_ia (test_importacao.ImportacaoTests.test_symlink_bloqueia_antes_da_ia) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 0.042s
+
+OK
+Importação com pendências. Leia PENDENCIAS.md; catálogo não ativado.
+Importação com pendências. Leia PENDENCIAS.md; catálogo não ativado.
+Importação com pendências. Leia PENDENCIAS.md; catálogo não ativado.
+Importação com pendências. Leia PENDENCIAS.md; catálogo não ativado.
+Importação com pendências. Leia PENDENCIAS.md; catálogo não ativado.
+Proposta criada. Leia REVISAO.md e servicos.csv; aprovação manual por SHA ainda é obrigatória.
+
+2026-10-26 UTC. Workspace Linux; Python 3.12.14, Node v24.22.1.
+python -m py_compile *.py: PASS
+node --test gateway/test_guard.mjs: 17/17 PASS
+node --check gateway/server.mjs: PASS
+Testes Python: 42/42 PASS. Dados sinteticos; IA e canal mockados.
+Windows/PowerShell/Docker build/modelo real/QR/WhatsApp real: NAO EXECUTADOS.
+Teste symlink: no Windows sem privilegio apenas esse caso sera SKIP; teste de segredo separado continua executado.

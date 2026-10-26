@@ -1,0 +1,39 @@
+✔ allowlist empty is closed (1.061821ms)
+✔ allowlist normalizes only explicit E164 values (0.746566ms)
+✔ wildcard, group and malformed allowlist fail closed (0.323759ms)
+✔ Bearer token exact comparison (0.210147ms)
+✔ incoming plain text yields normalized event (0.874719ms)
+✔ extended text supported, media-only ignored (0.186361ms)
+✔ groups status broadcast LID nonallowlisted rejected (0.19257ms)
+✔ history, stale and future inputs rejected (0.182655ms)
+✔ known own send ignored; unknown own send pauses (0.313713ms)
+✔ supports Baileys long timestamps (0.390639ms)
+✔ valid send needs a recorded inbound (0.31836ms)
+✔ cannot initiate or change recipient (0.471241ms)
+✔ cannot answer expired event or takeover marker (0.503039ms)
+✔ later human message blocks pending send (0.275736ms)
+✔ bad send body, key and text rejected (1.524299ms)
+✔ missing fromMe flag rejected rather than treated as inbound (0.236627ms)
+✔ only one documented restartRequired transport restart with saved registration (0.149416ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 115.254486
+
+2026-10-26 UTC, Linux cloud, Node v24.22.1
+node --check gateway/server.mjs: PASS
+node --check gateway/guard.mjs: PASS
+Smoke HTTP loopback com WHATSAPP_PAIRING_CONSENT=NAO:
+  /health consent_required + connected false: PASS
+  /events sem token -> 401: PASS
+  /events autenticado -> 200 vazio: PASS
+  /qr.svg autenticado -> 409: PASS
+  /send autenticado -> 503: PASS
+  Nenhuma pasta session criada: PASS
+NAO EXECUTADO: npm install, build Docker, Docker Desktop Windows, pareamento, mensagem real.
+Regra de reconexao limitada515 (sem pareamento real): PASS.
+PASS: mocked HTTP integration; one saved-session515 restart; duplicate/uncertain sends blocked; journal persisted; no real Baileys/WhatsApp.
