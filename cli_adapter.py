@@ -40,6 +40,10 @@ def executavel(nome: str) -> str:
         raise ErroCLI(f"{nome} não encontrado no PATH. Instale o CLI oficial e faça login por assinatura.")
     arquivo = Path(caminho)
     if arquivo.suffix.lower() in {".cmd", ".bat", ".ps1"}:
+        if nome == "claude":
+            candidato = arquivo.parent / "node_modules" / "@anthropic-ai" / "claude-code" / "bin" / "claude.exe"
+            if candidato.is_file():
+                return str(candidato)
         if nome == "codex":
             base = arquivo.parent / "node_modules" / "@openai" / "codex"
             for arch, triple in (("x64", "x86_64-pc-windows-msvc"), ("arm64", "aarch64-pc-windows-msvc")):

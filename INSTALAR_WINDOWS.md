@@ -13,7 +13,7 @@ Os logins de IA ficam onde os CLIs oficiais os guardam. Nada monta essas credenc
 
 Requisitos que o kit **não instala silenciosamente**:
 
-- Windows com Python 3.10+ oficial e launcher `py`.
+- Windows com Python 3.10+ oficial funcional por `python` ou `py -3`. Os scripts detectam a opcao funcional, sem instalar nada.
 - Docker Desktop oficial aberto, em modo **Linux containers**, com Compose.
 - **Um** CLI oficial atual: Codex autenticado com ChatGPT ou Claude Code nativo autenticado com Claude.ai.
 - Conta de teste WhatsApp e um segundo número que consentiu em participar do teste.
@@ -59,9 +59,11 @@ Se houver tentativa anterior, preserve-a e use uma pasta de kit nova para reimpo
 Alternativa explícita, sem script PowerShell (substitua os textos entre colchetes):
 
 ```powershell
-py -3 agente.py preparar --motor codex --nome "[SEU NOME]" --numeros "[DDI_DDD_NUMERO_DE_TESTE]"
-py -3 importar_conhecimento.py --pasta "C:\[CAMINHO]\conhecimento_agente" --motor codex --destino fonte_comercial
+python agente.py preparar --motor codex --nome "[SEU NOME]" --numeros "[DDI_DDD_NUMERO_DE_TESTE]"
+python importar_conhecimento.py --pasta "C:\[CAMINHO]\conhecimento_agente" --motor codex --destino fonte_comercial
 ```
+
+Os exemplos manuais usam `python`. Se somente `py -3` funcionar no seu Windows, use essa opção após conferir a versão; não instale nem altere PATH automaticamente.
 
 Troque `codex` por `claude` se esse foi o motor escolhido. Não coloque chaves API nos arquivos.
 O adaptador bloqueia variáveis `OPENAI_API_KEY`, `ANTHROPIC_API_KEY` e configurações de provedores alternativos.
@@ -76,14 +78,14 @@ Valores parcelados só podem constar como condição literal aprovada; nenhum c�
 Quando as pendências estiverem resolvidas, calcule o hash:
 
 ```powershell
-py -3 agente.py hash-fonte
+python agente.py hash-fonte
 ```
 
 Depois de revisar, use o hash exibido — **não aprove automaticamente sem ler**:
 
 ```powershell
-py -3 agente.py aprovar-fonte --sha256 [HASH_REVISADO]
-py -3 agente.py verificar
+python agente.py aprovar-fonte --sha256 [HASH_REVISADO]
+python agente.py verificar
 ```
 
 Essa aprovação não autoriza pareamento nem envio. Qualquer mudança posterior no catálogo ou nos Markdown copiados
@@ -131,7 +133,10 @@ Até esse teste terminar, diga **“implementado e testado offline”**, nunca �
   demais quedas exigem inspeção e reinício manual. Não repetir mensagens de resultado incerto.
 - `@lid`: este kit conservador ignora identificadores sem número verificável; não amplie a allowlist para “todos”.
 - Conversa pausada: consulte `dados/agente.sqlite3` localmente; não existe comando de retomada automática neste escopo.
-- Script não foi testado em PowerShell real neste ambiente. Não execute como administrador para “resolver” uma falha desconhecida.
+- Sintaxe dos três scripts e detector Python foram verificados em Windows real. PowerShell 5.1 bloqueou os scripts por política; ela não foi alterada. A execução completa de preparação/pareamento não foi feita. Não execute como administrador nem ative bypass para “resolver” falha desconhecida.
 
 Dados privados: `.env`, `config.local.json`, `dados/`, `fonte_comercial/` preenchida e volume Docker.
 Não publique esses itens em GitHub, ZIP compartilhado ou tela de aula.
+
+
+O detector Claude aceita o executavel nativo existente na instalacao npm oficial quando o PATH retorna apenas wrapper. Nao executa o wrapper e nao altera PATH persistentemente.

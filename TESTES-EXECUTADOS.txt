@@ -59,3 +59,9 @@ node --check gateway/server.mjs: PASS
 Testes Python: 42/42 PASS. Dados sinteticos; IA e canal mockados.
 Windows/PowerShell/Docker build/modelo real/QR/WhatsApp real: NAO EXECUTADOS.
 Teste symlink: no Windows sem privilegio apenas esse caso sera SKIP; teste de segredo separado continua executado.
+
+27/10/2026 — PATCH REAL WINDOWS
+43 testes Python no Windows (Python3.13.13): PASS; sintaxe3PS1 e helper Python real: PASS.
+Codex CLI autenticado geracao real ok_sintetico exit0: PASS. Claude login: PASS, geracao nao testada.
+PowerShell5.1 bloqueou scripts por politica; sem bypass. Dockerdaemonpipe ausente; sem QR/envio.
+Apos integrar patch no cloud Linux: 43 Python +17 Node +HTTP mock PASS; py_compile/node --check PASS.

@@ -1,6 +1,6 @@
 # Kit Windows — WhatsApp + Claude Code ou Codex local
 
-**Versão de laboratório, 26/10/2026. Código implementado e testes offline; canal real ainda não validado.**
+**Versão de laboratório, atualizada em 27/10/2026. 43 testes Python no Windows e geração Codex real passaram; WhatsApp real ainda não validado.**
 
 O WhatsApp fica em um gateway Baileys/Docker. O agente comercial e o CLI autenticado ficam no Windows.
 Não usa Zernio, API paga de IA, instalador antigo, Docker para a IA nem cópia de sessões `.codex`/`.claude`.
@@ -26,6 +26,6 @@ Baixe este repositório em pasta nova (Code > Download ZIP) ou clone com Git. Ab
 - QR e sessões são privados. Nunca projetar o QR para a turma.
 - Baileys não é a plataforma oficial da Meta; não se promete ausência de bloqueio.
 - Chats fornecidos apenas como `@lid` são ignorados; não se adivinha número nem se abre a lista.
-- Sem teste real no Windows, build Docker, pareamento, IA autenticada ou envio real nesta entrega.
+- Windows: 43 testes passaram e Codex autenticado gerou resposta real. Claude teve login confirmado, sem geração testada. PowerShell 5.1 bloqueou scripts por política; daemon Docker ainda indisponível. Sem build, QR ou envio WhatsApp real.
 
 A documentação distingue implementação, testes mockados e validação real pendente. Leia `VALIDACAO.md`.

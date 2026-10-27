@@ -23,5 +23,4 @@ Só depois dessas autorizações, siga INICIAR.ps1 e acompanhe um teste real: re
 Ao terminar, informe o que foi de fato verificado, o que falta e como parar; encerre o piloto salvo minha autorização para mantê-lo ativo nos mesmos contatos. Preserve conhecimento, credenciais e dados localmente; não os publique no GitHub. Não prometa resultado judicial ou condição comercial fora da fonte aprovada.
 ```
 
-Estado inicial deste kit: 42 testes Python, 17 testes Node e integração HTTP mockada passaram em Linux.
-Windows/PowerShell, build Docker, modelo real autenticado e WhatsApp real ainda exigem validação no computador do aluno.
+Estado em 27/10/2026: 43 testes Python passaram no Windows, Codex por assinatura gerou resposta real e Claude teve autenticação confirmada (geração Claude não testada). Também passaram 43 testes Python, 17 Node e integração HTTP mockada no workspace Linux. PowerShell 5.1 bloqueou scripts por política, sem bypass; daemon Docker permaneceu indisponível. Preparação completa, build, QR e WhatsApp real ainda não validados. Cada aluno precisa verificar seu próprio ambiente.

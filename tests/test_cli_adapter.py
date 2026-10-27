@@ -106,6 +106,15 @@ class CLITests(unittest.TestCase):
             with self.assertRaises(cli.ErroCLI):
                 cli.executavel("claude")
 
+    def test_claude_wrapper_resolve_nativo_existente_sem_shell(self):
+        with tempfile.TemporaryDirectory() as pasta:
+            base = Path(pasta)
+            exe = base / "node_modules/@anthropic-ai/claude-code/bin/claude.exe"
+            exe.parent.mkdir(parents=True)
+            exe.write_bytes(b"fixture-nao-executado")
+            with patch.object(cli.shutil, "which", return_value=str(base / "claude.cmd")):
+                self.assertEqual(cli.executavel("claude"), str(exe))
+
     def test_codex_wrapper_resolve_binario_npm_sem_shell(self):
         with tempfile.TemporaryDirectory() as pasta:
             base = Path(pasta)

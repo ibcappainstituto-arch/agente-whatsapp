@@ -1,12 +1,13 @@
 # Operacao supervisionada. QR, allowlist e dados sao privados; nao projete este terminal.
 $ErrorActionPreference = 'Stop'
 Set-Location -LiteralPath $PSScriptRoot
+. (Join-Path $PSScriptRoot 'PYTHON_WINDOWS.ps1')
 if (-not (Get-Command docker -ErrorAction SilentlyContinue)) { throw 'Docker Desktop oficial precisa estar instalado e aberto, em modo Linux containers.' }
 & docker compose version
 if ($LASTEXITCODE -ne 0) { throw 'Docker Compose indisponivel.' }
 $osType = & docker info --format '{{.OSType}}'
 if ($LASTEXITCODE -ne 0 -or $osType.Trim() -ne 'linux') { throw 'Docker Desktop nao esta pronto.' }
-& py -3 .\agente.py verificar
+Invoke-KitPython .\agente.py verificar
 if ($LASTEXITCODE -ne 0) { throw 'Fonte ou CLI nao verificados. Nao parear.' }
 $configPath = Join-Path $PSScriptRoot 'config.local.json'
 $config = Get-Content -Raw -LiteralPath $configPath | ConvertFrom-Json
@@ -54,7 +55,7 @@ try {
   if ($sendConsent -cne 'ENVIAR') { throw 'Envio nao autorizado.' }
   $config.envio_autorizado = $true
   [IO.File]::WriteAllText($configPath,($config | ConvertTo-Json -Depth 8),$utf8)
-  & py -3 .\agente.py iniciar
+  Invoke-KitPython .\agente.py iniciar
   if ($LASTEXITCODE -notin @(0,130)) { throw 'Agente parou com falha. Nao repita mensagem incerta; revise dados locais.' }
 } finally {
   $config.envio_autorizado = $false

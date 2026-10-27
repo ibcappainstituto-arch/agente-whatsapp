@@ -1,4 +1,4 @@
-# Evidências e limites — 26/10/2026
+# Evidências e limites — atualizado em 27/10/2026
 
 ## Executado neste workspace Linux
 
@@ -12,11 +12,25 @@
 
 Contagens finais e saída dos comandos estão em `TESTES-EXECUTADOS.txt` e `gateway/TESTES-EXECUTADOS.txt`.
 
+## Verificação real no Windows — 27/10/2026
+
+Relatório completo: [VALIDACAO_WINDOWS_20261027.md](VALIDACAO_WINDOWS_20261027.md).
+
+- Windows 10.0.26200.0; Python 3.13.13. **43 testes Python passaram no Windows**.
+- `py -3` não encontrou Python, mas `python` funcionou. Novo `PYTHON_WINDOWS.ps1` detecta uma opção funcional sem instalar programas nem alterar PATH/política.
+- Sintaxe dos três PS1 passou; helper executado no PowerShell do executor com Python real.
+- Codex autenticado por assinatura fez geração real pelo adaptador: `ok_sintetico`, exit 0.
+- Claude nativo 2.1.311 localizado e autenticação por assinatura confirmada; geração Claude **não testada**.
+- Docker Desktop/Compose instalados; processos abertos com autorização. Último probe: daemon Linux indisponível, pipe `dockerDesktopLinuxEngine` ausente.
+- Windows PowerShell 5.1 bloqueou dot-source por política. **Não alterada nem contornada**. Isso não autoriza bypass.
+- Nenhum `.env`, configuração, segredo de gateway, importação real, aprovação comercial, QR ou envio criado/executado.
+- Após incorporar o patch, no workspace Linux: 43 testes Python, 17 Node, compilação/sintaxe e integração HTTP mockada passaram novamente.
+
 ## Não executado / não alegado
 
-- PowerShell no Windows, instalador no computador do aluno, build e execução Docker.
+- Instalação/preparação completa pelos scripts no Windows; PowerShell 5.1 bloqueou execução por política. Build e execução do gateway Docker não ocorreram.
 - Instalação npm ou validação da árvore transitiva (sem lockfile nesta versão).
-- Login por assinatura real, modelo real, limites/cobrança da conta.
+- Geração Claude real e avaliação de billing. Autenticação dos dois CLIs e geração Codex real foram verificadas conforme seção acima.
 - Escaneamento de QR, pareamento, mensagem WhatsApp real ou entrega no celular.
 - Canal com JIDs exclusivamente LID, anexos, áudio, documentos, Google Drive, Instagram ou follow-up.
 
