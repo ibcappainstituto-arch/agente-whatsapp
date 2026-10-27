@@ -1,0 +1,25 @@
+{
+  "base_commit": "8b6a36c39435b65b6443d240d7f42edd6885a27a",
+  "node": "24.15.0",
+  "npm": "11.17.0",
+  "direct_dependencies": {
+    "baileys": "7.0.0-rc14",
+    "qrcode": "1.5.4"
+  },
+  "lockfileVersion": 3,
+  "lock_entries": 124,
+  "canonical_registry_only": true,
+  "install_scripts_executed": false,
+  "command": "npm ci --ignore-scripts --registry=https://registry.npmjs.org --fetch-retries=0 --fetch-timeout=20000 --no-audit --no-fund",
+  "package_lock_sha256": "9cc312f9812aae819ce9c61cd2265c2fd594e52defdd39e65163953f0bbf0fed",
+  "module_import": "passed_without_connection",
+  "health_real": {
+    "status": "consent_required",
+    "connected": false
+  },
+  "gateway_session_created": false,
+  "persistent_config_created": false,
+  "tests_python": 43,
+  "tests_node": 17,
+  "whatsapp_real": "not_tested"
+}

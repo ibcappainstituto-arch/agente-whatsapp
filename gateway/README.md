@@ -9,7 +9,7 @@ O cérebro roda no Windows. O canal usa este gateway Baileys em Node local (reco
 - Sintaxe de `server.mjs` conferida por `node --check`.
 - Smoke HTTP local sem consentimento: saúde desconectada, API sem token recusada, buffer vazio, QR indisponível e envio recusado; nenhuma sessão criada nem dependência Baileys importada.
 - Não instalamos dependências, não construímos a imagem, não executamos Docker, não pareamos uma conta nem enviamos WhatsApp real neste ambiente.
-- Dependências diretas fixadas; árvore transitiva ainda não congelada em lockfile. O primeiro build autorizado precisa resolver dependências, ser revisado e validado localmente. Não anunciar esse kit como produção validada.
+- Dependências e árvore fixadas em package-lock.json v3. Instalação/imports reais passaram no Windows com lifecycle scripts desativados; o build Docker opcional continua não testado. Não anunciar produção ou WhatsApp conectado validado.
 
 ## Configuração (arquivo `.env` da raiz)
 
@@ -45,3 +45,7 @@ Mensagem manual de saída em chat autorizado gera `human_takeover`. O agente hos
 - [Enum oficial DisconnectReason](https://raw.githubusercontent.com/WhiskeySockets/Baileys/v7.0.0-rc14/src/Types/index.ts): `restartRequired = 515`; reconexão limitada testada como regra pura, handshake real não testado.
 
 - [Release rc11, migração do libsignal para NPM](https://github.com/WhiskeySockets/Baileys/releases/tag/v7.0.0-rc11): manifesto rc14 não requer dependência Git para libsignal; não foi acrescentado instalador Git/apt sem necessidade.
+
+## Preparação real posterior no Windows
+
+Baileys7.0.0-rc14/qrcode1.5.4 instalados somente no projeto via npm canônico e --ignore-scripts;124 entradas de dependências no lock mais raiz,98 pacotes aplicáveis instalados. Imports reais passaram. Health consent_required/connected:false,QR409,send503,API não autenticada401,eventos vazios. Token apenas efêmero; processo encerrado; nenhuma sessão/configuração persistente. Isso não comprova conexão WhatsApp.

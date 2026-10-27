@@ -14,7 +14,7 @@ Claude Code ajuda a preparar e conduzir esses processos; isso **não** transform
 2. Confira Python >=3.10, Node >=22 e Claude CLI nativo existentes. Não instale software de sistema, altere política ou PATH silenciosamente.
 3. Rode testes offline (`python -m unittest discover -s tests -v`; `node --test gateway/test_guard.mjs`). Use o executável Python funcional; não pressuponha que `py -3` funciona.
 4. Confira autenticação por assinatura pelo adaptador. Não leia/copíe arquivos de credenciais. A presença do app aberto não basta.
-5. Pacotes diretos do gateway: `baileys@7.0.0-rc14` e `qrcode@1.5.4`. Se ausentes, peça autorização específica para instalar dependências **somente no projeto**, revisar árvore/scripts e criar lockfile local. Nenhum script deste kit executa npm silenciosamente. Não há árvore npm real validada nesta versão.
+5. Pacotes diretos do gateway: `baileys@7.0.0-rc14` e `qrcode@1.5.4`. Se ausentes, peça autorização específica para instalar dependências **somente no projeto**, usando o `gateway/package-lock.json` já fornecido e scripts de instalação desativados. Revise a árvore/scripts; não regenere o lock por conta própria. Nenhum script deste kit executa npm silenciosamente. A árvore foi instalada e os módulos importados no Windows de validação; isso não valida Baileys conectado.
 6. Use os seis Markdown de `conhecimento_agente`, já produzidos no comando01. A conversão pelo CLI gera proposta com citações; não aprova automaticamente. Leia somente a pasta autorizada. Peça revisão de lacunas/associação de preço e serviço.
 7. Antes de `agente.py preparar`, peça autorização específica para gravar configuração e chave local persistente. A autorização de usar Claude Code ou instalar dependências não implica esse consentimento. Não imprima a chave. Só depois, prepare configuração, importe/revise a fonte e registre aprovação comercial explícita conforme comandos do projeto.
 
@@ -34,3 +34,13 @@ Validação real exige verificar a resposta no segundo telefone após geração 
 - [Gateway Node e verificações](NODE_NATIVO_WINDOWS.md).
 - [Evidências/limites](VALIDACAO.md).
 - `INICIAR.ps1`/`compose.yaml`: opção Docker, fora do caminho principal. Não usar sem escolha explícita.
+
+## Reproduzir as dependências — somente após autorização
+
+O assistente pode executar, dentro de `gateway`, após autorização específica:
+
+```text
+npm ci --ignore-scripts --registry=https://registry.npmjs.org --fetch-retries=0 --fetch-timeout=20000 --no-audit --no-fund
+```
+
+Não adicionar `--global`, não habilitar scripts de lifecycle nem trocar de registry se falhar. O lockfile v3 contém124 entradas de dependências mais a raiz; no Windows de validação foram instalados98 pacotes aplicáveis à plataforma. Nenhum lifecycle foi executado. Essa autorização não cria chave persistente, configuração, QR ou envio.

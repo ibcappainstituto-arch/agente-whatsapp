@@ -29,7 +29,7 @@ Relatório completo: [VALIDACAO_WINDOWS_20261027.md](VALIDACAO_WINDOWS_20261027.
 ## Não executado / não alegado
 
 - Instalação/preparação completa pelos scripts no Windows; PowerShell 5.1 bloqueou execução por política. Build e execução do gateway Docker não ocorreram.
-- Instalação npm ou validação da árvore transitiva (sem lockfile nesta versão).
+- Conexão real do Baileys; a instalação/importação da árvore npm foi verificada posteriormente, conforme seção final.
 - Geração Claude real e avaliação de billing. Autenticação dos dois CLIs e geração Codex real foram verificadas conforme seção acima.
 - Escaneamento de QR, pareamento, mensagem WhatsApp real ou entrega no celular.
 - Canal com JIDs exclusivamente LID, anexos, áudio, documentos, Google Drive, Instagram ou follow-up.
@@ -60,3 +60,12 @@ A branch remota e os hashes Git dos 31 arquivos foram conferidos. Publicação n
 - Windows: 43 testes Python,17 regras Node,sintaxe e integração HTTP mockada passaram. Launcher real parou ao encontrar baileys ausente.
 - Pacotes reais baileys7.0.0-rc14/qrcode1.5.4 e árvore npm não instalados/validados; nenhum QR, sessão WhatsApp ou mensagem real.
 - Caminho Node recomendado reduz pré-requisitos; não transforma mock em canal real validado.
+
+## Dependências reais e health Node no Windows — atualização27/10/2026
+
+- npm canônico, dependências diretas baileys7.0.0-rc14 e qrcode1.5.4; npm ci --ignore-scripts, nenhum lifecycle executado.
+- Lockfile v3 SHA2569cc312f9812aae819ce9c61cd2265c2fd594e52defdd39e65163953f0bbf0fed;124 entradas de dependências mais a raiz (125 objetos packages);98 pacotes instalados aplicáveis ao Windows.
+- Imports reais dos dois módulos passaram sem conexão. Health real consent_required/connected:false;QR409,send503,API sem token401,eventos vazios.
+- Token só efêmero; processo encerrado; nenhuma sessão/journal, .env ou configuração persistente.43Python/17Node passaram.
+- Isto supera apenas a pendência anterior de instalar/importar pacotes. Geração Claude real, Baileys conectado,pareamento e mensagem WhatsApp continuam pendentes.
+- Artefatos de evidência: PREPARACAO-NODE-CLAUDE-CODE-20261027.json e RODAR_NO_CLAUDE_CODE.md.

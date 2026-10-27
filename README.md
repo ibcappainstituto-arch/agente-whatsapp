@@ -22,6 +22,6 @@ O Claude Code conduz os processos **Node + Python deste projeto**, usando o CLI 
 
 ## O que já foi verificado
 
-43 testes Python passaram no Windows e no Linux;17 regras Node e integração HTTP mockada passaram. Codex autenticado gerou resposta real. Claude teve autenticação confirmada, sem geração real testada ainda. O launcher Node recusou dependências ausentes antes de configurar/parear.
+43 testes Python passaram no Windows e no Linux;17 regras Node e integração HTTP mockada passaram. Codex autenticado gerou resposta real. Claude teve autenticação confirmada, sem geração real testada ainda. A preparação Node real instalou dependências somente no projeto com scripts desativados; imports Baileys/qrcode passaram e health real respondeu consent_required/connected:false. Lockfile reproduzível incluído; veja RODAR_NO_CLAUDE_CODE.md.
 
-**Ainda não validados: árvore npm/Baileys real, geração Claude real, QR e mensagem WhatsApp real.** Baileys é não oficial e pode sofrer instabilidade/restrições. Consulte [VALIDACAO.md](VALIDACAO.md).
+**Ainda não validados: Baileys conectado, geração Claude real, QR e mensagem WhatsApp real.** A instalação/importação de dependências não comprova conexão nem entrega. Baileys é não oficial e pode sofrer instabilidade/restrições. Consulte [VALIDACAO.md](VALIDACAO.md).

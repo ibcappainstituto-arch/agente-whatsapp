@@ -3,7 +3,7 @@
 No Windows usado na validação, Node 24.15.0 e npm 11.17.0 já existiam; requisito Node >=22 atendido. Cada aluno deve verificar suas próprias versões.
 Comando técnico do gateway: `node server.mjs`, dentro de `gateway`.
 
-Dependências diretas exatas: `baileys@7.0.0-rc14` e `qrcode@1.5.4`. Não estão instaladas nesta cópia. Não há package-lock.json e a árvore transitiva ainda não está congelada. Nenhum npm install/ci foi executado. A instalação dessas dependências e revisão dos scripts/árvore exigem autorização antes de tentar o canal real.
+Dependências diretas exatas: `baileys@7.0.0-rc14` e `qrcode@1.5.4`. Foram instaladas na cópia Windows de validação, com scripts desativados. O package-lock.json v3 acompanha o projeto; não há node_modules no repositório. Cada computador precisa de sua própria instalação autorizada. A instalação dessas dependências e revisão dos scripts/árvore exigem autorização antes de tentar o canal real.
 
 O launcher separado `INICIAR_NODE.ps1` depende da correção `PYTHON_WINDOWS.ps1` já entregue. Não chama Docker nem npm e não instala nada. Verifica Node, versões das dependências locais, porta livre, fonte comercial e CLI autenticado. Não altera a política de execução. Se a política bloquear, parar; sem bypass.
 
@@ -15,13 +15,13 @@ O servidor usa loopback por padrão. Compose recebe somente uma variável de bin
 
 Validação: 43 testes Python e 17 regras Node passaram; análise de sintaxe PowerShell e node --check passaram. Integração HTTP Windows com Baileys falso passou fora do sandbox restrito, incluindo idempotência, journal e reconexão515 limitada; não usa dependências reais ou conta WhatsApp. Na execução restrita inicial, o teste não observou eventos. Launcher real foi executado somente até recusar dependência baileys ausente, antes de qualquer configuração/pareamento.
 
-Continua NÃO validado: instalação da árvore npm, Baileys real, pareamento e envio. Nenhum segredo operacional, QR ou mensagem real criado. A alternativa elimina a dependência de Docker, mas não elimina autorização de instalação, pareamento e teste supervisionado.
+Continua NÃO validado: Baileys conectado, pareamento e envio. Instalação/imports da árvore real e health desconectado passaram no Windows, conforme RODAR_NO_CLAUDE_CODE.md. Nenhum segredo operacional, QR ou mensagem real criado. A alternativa elimina a dependência de Docker, mas não elimina autorização de instalação, pareamento e teste supervisionado.
 
 ## Ordem de execução
 
 1. Revise os seis Markdown já criados em `conhecimento_agente`.
 2. Autorize explicitamente a preparação local antes de criar `.env`/chave do gateway e antes de qualquer instalação npm. O launcher não faz nenhuma dessas instalações.
-3. Confira `gateway/package.json`: duas dependências diretas exatas. Após autorização separada, a instalação ocorre somente em `gateway`, nunca globalmente. A árvore transitiva e scripts precisam ser revistos; não há lockfile validado neste pacote. Nenhum comando npm deve ser executado silenciosamente pelo assistente.
+3. Confira `gateway/package.json`: duas dependências diretas exatas. Após autorização separada, a instalação ocorre somente em `gateway`, nunca globalmente. A árvore transitiva e scripts precisam ser revistos; use o lockfile fornecido com npm ci --ignore-scripts, conforme COMECE_NO_CLAUDE_CODE.md. Não regenere nem execute scripts automaticamente. Nenhum comando npm deve ser executado silenciosamente pelo assistente.
 4. Siga `INSTALAR_WINDOWS.md` para importar e revisar a fonte comercial; aprove o SHA somente depois da leitura.
 5. O assistente conduz os processos pelo Claude Code. Como suporte opcional, se a política atual permitir, ele pode usar `.\INICIAR_NODE.ps1` na raiz. O programa recusa Node incompatível, pacotes ausentes/versões erradas, porta ocupada e fonte/login não verificados antes de pedir PAREAR e ENVIAR.
 6. Não execute Node e Docker juntos. Ctrl+C encerra o agente; o launcher encerra somente o processo Node que ele criou e preserva sessão/journal privados.

@@ -71,3 +71,5 @@ Apos integrar patch no cloud Linux: 43 Python +17 Node +HTTP mock PASS; py_compi
 Launcher recusou baileys ausente antes de config/pareamento. Node24.15/npm11.17 existentes.
 Nenhum npm install, dependencias reais, QR ou WhatsApp real executados.
 Apos integrar Node nativo em cloud Linux:43Python+17Node+HTTPmock+py_compile+node --check PASS.
+
+ATUALIZACAO NODE REAL Windows: npmci --ignore-scripts,imports Baileys/qrcode PASS; healthconsent_required/connected:false;QR409/send503/API401/eventosvazios. Tokenefemero,processoparado,semconfigpersistente/QR/WhatsAppconectado.43Python17NodePASS.
