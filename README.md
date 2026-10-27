@@ -22,6 +22,12 @@ O Claude Code conduz os processos **Node + Python deste projeto**, usando o CLI 
 
 ## O que já foi verificado
 
-43 testes Python passaram no Windows e no Linux;17 regras Node e integração HTTP mockada passaram. Codex autenticado gerou resposta real. Claude teve autenticação confirmada, sem geração real testada ainda. A preparação Node real instalou dependências somente no projeto com scripts desativados; imports Baileys/qrcode passaram e health real respondeu consent_required/connected:false. Lockfile reproduzível incluído; veja RODAR_NO_CLAUDE_CODE.md.
+43 testes Python passaram no Windows e no Linux. A revisão offline atual passou 28 testes Node e dois cenários HTTP mockados; os novos testes QR ainda não foram repetidos no Windows. Codex autenticado gerou resposta real. Claude teve autenticação confirmada, sem geração real testada ainda. A preparação Node real instalou dependências somente no projeto com scripts desativados; imports Baileys/qrcode passaram e health real respondeu consent_required/connected:false. Lockfile reproduzível incluído; veja RODAR_NO_CLAUDE_CODE.md.
 
-**Ainda não validados: Baileys conectado, geração Claude real, QR e mensagem WhatsApp real.** A instalação/importação de dependências não comprova conexão nem entrega. Baileys é não oficial e pode sofrer instabilidade/restrições. Consulte [VALIDACAO.md](VALIDACAO.md).
+**Não está pronto para operação/aula autônoma: pareamento, conversa WhatsApp ponta a ponta e geração Claude real ainda não foram validados.** A instalação/importação de dependências não comprova conexão nem entrega. Baileys é não oficial e pode sofrer instabilidade/restrições. Consulte [VALIDACAO.md](VALIDACAO.md).
+
+## Correção pós-aula: QR e diagnóstico
+
+Corrigida a janela local que podia expor QR expirado: no máximo15s, invalidação por eventos e proteção contra corrida durante renderização. Diagnóstico de desconexão registra apenas metadados sanitizados. **A causa da falha anterior não foi identificada, e esta correção não comprova pareamento.** O piloto foi encerrado sem conexão/registro confirmados e sem envio.
+
+Não transportar QR por chat: pode vencer antes da entrega. Falta validar um visualizador **privado local**, atualizado conforme eventos, que retire a imagem quando expirar/desconectar. Os launchers com SVG estático não atendem a esse critério. **Não iniciar novo piloto/aula com esse percurso enquanto a UI e o teste ponta a ponta não forem concluídos em momento autorizado.** Detalhes em [QR_DIAGNOSTICO_20261027.md](QR_DIAGNOSTICO_20261027.md).

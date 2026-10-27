@@ -1,39 +1,40 @@
-✔ allowlist empty is closed (1.061821ms)
-✔ allowlist normalizes only explicit E164 values (0.746566ms)
-✔ wildcard, group and malformed allowlist fail closed (0.323759ms)
-✔ Bearer token exact comparison (0.210147ms)
-✔ incoming plain text yields normalized event (0.874719ms)
-✔ extended text supported, media-only ignored (0.186361ms)
-✔ groups status broadcast LID nonallowlisted rejected (0.19257ms)
-✔ history, stale and future inputs rejected (0.182655ms)
-✔ known own send ignored; unknown own send pauses (0.313713ms)
-✔ supports Baileys long timestamps (0.390639ms)
-✔ valid send needs a recorded inbound (0.31836ms)
-✔ cannot initiate or change recipient (0.471241ms)
-✔ cannot answer expired event or takeover marker (0.503039ms)
-✔ later human message blocks pending send (0.275736ms)
-✔ bad send body, key and text rejected (1.524299ms)
-✔ missing fromMe flag rejected rather than treated as inbound (0.236627ms)
-✔ only one documented restartRequired transport restart with saved registration (0.149416ms)
-ℹ tests 17
+Revisao offline QR/diagnostico — 2026-10-27 (Linux; nenhum npm/WhatsApp)
+✔ distinguishes exhausted QR references from generic 408 (1.537649ms)
+✔ never serializes secrets in arbitrary error fields (0.178279ms)
+✔ handles missing errors and safe known termination (0.214834ms)
+✔ allowlist empty is closed (1.403967ms)
+✔ allowlist normalizes only explicit E164 values (0.953448ms)
+✔ wildcard, group and malformed allowlist fail closed (0.396238ms)
+✔ Bearer token exact comparison (0.363018ms)
+✔ incoming plain text yields normalized event (1.045928ms)
+✔ extended text supported, media-only ignored (0.280072ms)
+✔ groups status broadcast LID nonallowlisted rejected (0.307213ms)
+✔ history, stale and future inputs rejected (0.232411ms)
+✔ known own send ignored; unknown own send pauses (0.30529ms)
+✔ supports Baileys long timestamps (0.367584ms)
+✔ valid send needs a recorded inbound (0.438952ms)
+✔ cannot initiate or change recipient (0.529118ms)
+✔ cannot answer expired event or takeover marker (0.315276ms)
+✔ later human message blocks pending send (0.162185ms)
+✔ bad send body, key and text rejected (1.284697ms)
+✔ missing fromMe flag rejected rather than treated as inbound (0.141633ms)
+✔ only one documented restartRequired transport restart with saved registration (0.161724ms)
+✔ QR expires at 15s exactly, before subsequent Baileys 20s default (1.349325ms)
+✔ duplicate QR never extends expiry or resurrects an old value (0.225059ms)
+✔ rotation replaces old snapshot; stale SVG rendering is rejected (0.218299ms)
+✔ explicit qr undefined, empty and null invalidate; absent qr does not (0.325871ms)
+✔ pair success, open, close and connecting invalidate despite coalesced QR (0.291329ms)
+✔ shutdown/storage invalidation and elapsed renderer cannot return stale QR (0.219822ms)
+✔ backward injected clock fails closed and empty initial state exposes no QR (0.31112ms)
+✔ late timer QR after pair success/open/close stays blocked until a new transport (0.227603ms)
+ℹ tests 28
 ℹ suites 0
-ℹ pass 17
+ℹ pass 28
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 115.254486
-
-2026-10-26 UTC, Linux cloud, Node v24.22.1
-node --check gateway/server.mjs: PASS
-node --check gateway/guard.mjs: PASS
-Smoke HTTP loopback com WHATSAPP_PAIRING_CONSENT=NAO:
-  /health consent_required + connected false: PASS
-  /events sem token -> 401: PASS
-  /events autenticado -> 200 vazio: PASS
-  /qr.svg autenticado -> 409: PASS
-  /send autenticado -> 503: PASS
-  Nenhuma pasta session criada: PASS
-NAO EXECUTADO: npm install, build Docker, Docker Desktop Windows, pareamento, mensagem real.
-Regra de reconexao limitada515 (sem pareamento real): PASS.
+ℹ duration_ms 108.791439
+Node syntax PASS
 PASS: mocked HTTP integration; one saved-session515 restart; duplicate/uncertain sends blocked; journal persisted; no real Baileys/WhatsApp.
+PASS: mocked QR HTTP; private no-store; rotation/clear/pair/open/close invalidation; render races and late timer QRs rejected; safe diagnostic persisted; no real QR/WhatsApp.

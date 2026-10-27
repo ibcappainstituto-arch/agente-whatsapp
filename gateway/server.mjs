@@ -4,6 +4,8 @@ import { createHash } from 'node:crypto';
 import { mkdirSync, existsSync, readFileSync, writeFileSync, renameSync } from 'node:fs';
 import { join, isAbsolute } from 'node:path';
 import { allowlist, authorized, normalize, verifySend, mayRestartTransport, TTL_SECONDS } from './guard.mjs';
+import { disconnectDiagnostic } from './disconnect-diagnostic.mjs';
+import { createQrLifecycle } from './qr-lifecycle.mjs';
 
 const token = process.env.GATEWAY_TOKEN || '';
 if (!/^[A-Za-z0-9_-]{32,256}$/.test(token)) throw new Error('GATEWAY_TOKEN must be 32+ random URL-safe characters.');
@@ -26,7 +28,8 @@ const ownIds = new Set(Object.values(journal).map(x => x.message_id).filter(Bool
 const events = new Map();
 let cursor = Date.now() * 1000;
 const startedAt = Math.ceil(Date.now() / 1000);
-let socket, generateId, qr = '', qrTime = 0, status = consent ? 'starting' : 'consent_required';
+const qrState = createQrLifecycle();
+let socket, generateId, status = consent ? 'starting' : 'consent_required';
 let transportRestarts = 0, stopping = false;
 const now = () => Date.now() / 1000;
 const safeHeaders = { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
@@ -62,12 +65,16 @@ const server = http.createServer(async (req, res) => {
     // No browser-origin API access; local PowerShell/Python clients use a Bearer token.
     if (req.headers.origin) return reply(res, 403, {error: 'browser_origin_not_allowed'});
     if (req.method === 'GET' && url.pathname === '/qr') {
-      return reply(res, 200, {status, qr: consent && now() - qrTime < 45 ? qr : ''});
+      const current = consent && !stopping && status === 'qr_required' ? qrState.snapshot() : null;
+      return reply(res, 200, {status, qr: current?.value || '', expires_in_ms: qrState.remainingMs(current)});
     }
     if (req.method === 'GET' && url.pathname === '/qr.svg') {
-      if (!consent || !qr || now() - qrTime >= 45) return reply(res, 409, {error: 'qr_not_available'});
+      const current = consent && !stopping && status === 'qr_required' ? qrState.snapshot() : null;
+      if (!current) return reply(res, 409, {error: 'qr_not_available'});
       const QRCode = (await import('qrcode')).default;
-      const svg = await QRCode.toString(qr, {type: 'svg', errorCorrectionLevel: 'L', margin: 4});
+      const svg = await QRCode.toString(current.value, {type: 'svg', errorCorrectionLevel: 'L', margin: 4});
+      // Rotation, pairing, disconnection or expiry may happen during async rendering.
+      if (stopping || status !== 'qr_required' || !qrState.isCurrent(current)) return reply(res, 409, {error: 'qr_not_available'});
       res.writeHead(200, {...safeHeaders, 'Content-Type': 'image/svg+xml'});
       return res.end(svg);
     }
@@ -122,6 +129,7 @@ server.headersTimeout = 10000;
 server.listen(3210, bindHost, () => console.log('Gateway HTTP ready; host access must be loopback only.'));
 
 async function connect(allowPairing = true) {
+  qrState.beginTransport();
   if (!consent || !allowed.size) { status = !consent ? 'consent_required' : 'allowlist_required'; return; }
   const {default: makeWASocket, useMultiFileAuthState, generateMessageIDV2} = await import('baileys');
   generateId = generateMessageIDV2;
@@ -129,7 +137,7 @@ async function connect(allowPairing = true) {
   const {state, saveCreds} = await useMultiFileAuthState(join(dataDir, 'session'));
   if (stopping) return;
   if (!allowPairing && state.creds.registered !== true) {status = 'session_review_required'; return;}
-  let credentialWrites = Promise.resolve();
+  let credentialWrites = Promise.resolve(), transportClosed = false;
   const activeSocket = makeWASocket({auth: state, logger, markOnlineOnConnect: false, syncFullHistory: false,
     shouldSyncHistoryMessage: () => false, shouldIgnoreJid: jid => !allowed.has(jid),
     getMessage: async () => undefined});
@@ -137,15 +145,24 @@ async function connect(allowPairing = true) {
   activeSocket.ev.on('creds.update', () => {
     if (socket !== activeSocket || stopping) return;
     credentialWrites = credentialWrites.then(() => saveCreds());
-    credentialWrites.catch(() => {status = 'storage_error'; activeSocket.end(new Error('storage_error'));});
+    credentialWrites.catch(() => {qrState.invalidate(); status = 'storage_error'; activeSocket.end(new Error('storage_error'));});
   });
   activeSocket.ev.on('connection.update', update => {
-    if (socket !== activeSocket || stopping) return;
-    if (update.qr && !allowPairing) {status = 'session_review_required'; activeSocket.end(new Error('new_pairing_not_allowed')); return;}
-    if (update.qr) {qr = update.qr; qrTime = now(); status = 'qr_required'; console.log('Private QR available through authenticated /qr.svg. Do not project/share it.');}
-    if (update.connection === 'open') {status = 'connected'; qr = ''; console.log('WhatsApp connected. Only allowlisted inbound text can receive a reply.');}
+    if (socket !== activeSocket || stopping || transportClosed) return;
+    if (update.qr && !allowPairing) {qrState.invalidate(); status = 'session_review_required'; activeSocket.end(new Error('new_pairing_not_allowed')); return;}
+    qrState.apply(update);
+    if (qrState.snapshot()) {status = 'qr_required';}
+    else if (update.isNewLogin) {status = 'pairing_in_progress';}
+    else if (update.connection === 'connecting') {status = 'starting';}
+    else if (Object.hasOwn(update, 'qr') && status === 'qr_required') {status = 'qr_unavailable';}
+    if (update.connection === 'open') {status = 'connected'; console.log('WhatsApp connected. Only allowlisted inbound text can receive a reply.');}
     if (update.connection === 'close') {
-      qr = '';
+      transportClosed = true;
+      const diagnostic = disconnectDiagnostic(update, {qrSeen: qrState.hasSeen(), stopping});
+      console.log(JSON.stringify(diagnostic));
+      try { writeFileSync(join(dataDir, 'last-disconnect.json'), JSON.stringify(diagnostic), {mode: 0o600}); }
+      catch { console.error('Safe disconnect diagnostic could not be persisted.'); }
+      qrState.invalidate();
       const reason = update.lastDisconnect?.error?.output?.statusCode;
       if (mayRestartTransport(reason, state.creds.registered, transportRestarts, stopping)) {
         transportRestarts += 1;
@@ -159,12 +176,12 @@ async function connect(allowPairing = true) {
     }
   });
   activeSocket.ev.on('messages.upsert', upsert => {
-    if (socket !== activeSocket || stopping) return;
+    if (socket !== activeSocket || stopping || transportClosed) return;
     if (upsert.type !== 'notify') return;
     for (const message of upsert.messages || []) putEvent(normalize(message, allowed, now(), startedAt, ownIds));
   });
 }
 connect().catch(() => { status = 'startup_error'; console.error('WhatsApp startup failed. No pairing/send confirmed; inspect configuration and dependency installation.'); });
-function shutdown() { stopping = true; qr = ''; socket?.end(new Error('operator_stop')); server.close(() => process.exit(0)); setTimeout(() => process.exit(0), 1000).unref(); }
+function shutdown() { stopping = true; qrState.invalidate(); socket?.end(new Error('operator_stop')); server.close(() => process.exit(0)); setTimeout(() => process.exit(0), 1000).unref(); }
 process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);

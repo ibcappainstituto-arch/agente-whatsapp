@@ -29,9 +29,9 @@ Relatório completo: [VALIDACAO_WINDOWS_20261027.md](VALIDACAO_WINDOWS_20261027.
 ## Não executado / não alegado
 
 - Instalação/preparação completa pelos scripts no Windows; PowerShell 5.1 bloqueou execução por política. Build e execução do gateway Docker não ocorreram.
-- Conexão real do Baileys; a instalação/importação da árvore npm foi verificada posteriormente, conforme seção final.
+- Conexão estável/pareamento confirmado do Baileys. Houve tentativa posterior no piloto, encerrada sem registro confirmado; veja atualização pós-aula.
 - Geração Claude real e avaliação de billing. Autenticação dos dois CLIs e geração Codex real foram verificadas conforme seção acima.
-- Escaneamento de QR, pareamento, mensagem WhatsApp real ou entrega no celular.
+- Pareamento confirmado, mensagem WhatsApp real ou entrega no celular. Não inferir essas etapas da disponibilidade de QR ou de health local.
 - Canal com JIDs exclusivamente LID, anexos, áudio, documentos, Google Drive, Instagram ou follow-up.
 
 Não é produção homologada. O título correto é **kit de laboratório implementado com validação offline**.
@@ -69,3 +69,11 @@ A branch remota e os hashes Git dos 31 arquivos foram conferidos. Publicação n
 - Token só efêmero; processo encerrado; nenhuma sessão/journal, .env ou configuração persistente.43Python/17Node passaram.
 - Isto supera apenas a pendência anterior de instalar/importar pacotes. Geração Claude real, Baileys conectado,pareamento e mensagem WhatsApp continuam pendentes.
 - Artefatos de evidência: PREPARACAO-NODE-CLAUDE-CODE-20261027.json e RODAR_NO_CLAUDE_CODE.md.
+
+## Atualização pós-aula: correção offline, sem reconexão
+
+O executor Windows relatou piloto encerrado, sem listener na porta3210, sessão preservada com registered:false e connected:false, envio desabilitado e nenhuma mensagem enviada. QR não foi entregue no chat. O diagnóstico das desconexões anteriores não estava disponível; não atribuímos causa. Isso não é ensaio ponta a ponta aprovado.
+
+Instrumentação de desconexão sanitizada incorporada por trechos, preservando o bind local, o caminho Node e o lockfile da HEADa57a435. Janela QR45s substituída por limite local15s e invalidação em eventos/expiração; renderização SVG revalida o mesmo snapshot após await. Fonte primária versionada confirma os defaults60s/20s do Baileys. Detalhes e limites: QR_DIAGNOSTICO_20261027.md.
+
+Verificação desta revisão em Linux:43Python,28Node,compilação/sintaxe e dois HTTP mocks passaram. O patch de observabilidade de origem teve20Node+HTTPmock aprovados no Windows; os testes novos de ciclo QR não foram executados no Windows. Não houve conexão/login/pareamento/envio para esta correção. UI local privada com atualização e retirada de QR expirado permanece pendente; SVG estático não satisfaz o critério. Não retomar demonstração antes de UI e ensaio ponta a ponta autorizados e concluídos. Fonte comercial aprovada também permanece pré-requisito; formulários ou depoimentos não substituem validação técnica.

@@ -1,3 +1,4 @@
+Revisao offline QR/diagnostico — 2026-10-27 (Linux)
 test_allowlist_vazia_bloqueia (test_agente.Runtime.test_allowlist_vazia_bloqueia) ... ok
 test_antiga_e_futura_bloqueadas (test_agente.Runtime.test_antiga_e_futura_bloqueadas) ... ok
 test_duplicado_nao_reenvia (test_agente.Runtime.test_duplicado_nao_reenvia) ... ok
@@ -22,6 +23,7 @@ test_api_env_bloqueia_antes_de_qualquer_processo (test_cli_adapter.CLITests.test
 test_claude_recusa_envelope_sem_output_erro_ou_truncado (test_cli_adapter.CLITests.test_claude_recusa_envelope_sem_output_erro_ou_truncado) ... ok
 test_claude_structured_output_sem_ferramentas (test_cli_adapter.CLITests.test_claude_structured_output_sem_ferramentas) ... ok
 test_claude_wrapper_cmd_recusado (test_cli_adapter.CLITests.test_claude_wrapper_cmd_recusado) ... ok
+test_claude_wrapper_resolve_nativo_existente_sem_shell (test_cli_adapter.CLITests.test_claude_wrapper_resolve_nativo_existente_sem_shell) ... ok
 test_codex_recusa_json_truncado_campos_extras_tipo_errado (test_cli_adapter.CLITests.test_codex_recusa_json_truncado_campos_extras_tipo_errado) ... ok
 test_codex_stdin_arquivo_schema_sem_shell (test_cli_adapter.CLITests.test_codex_stdin_arquivo_schema_sem_shell) ... ok
 test_codex_wrapper_resolve_binario_npm_sem_shell (test_cli_adapter.CLITests.test_codex_wrapper_resolve_binario_npm_sem_shell) ... ok
@@ -42,7 +44,7 @@ test_segredo_bloqueia_antes_da_ia (test_importacao.ImportacaoTests.test_segredo_
 test_symlink_bloqueia_antes_da_ia (test_importacao.ImportacaoTests.test_symlink_bloqueia_antes_da_ia) ... ok
 
 ----------------------------------------------------------------------
-Ran 42 tests in 0.042s
+Ran 43 tests in 0.045s
 
 OK
 Importação com pendências. Leia PENDENCIAS.md; catálogo não ativado.
@@ -51,25 +53,4 @@ Importação com pendências. Leia PENDENCIAS.md; catálogo não ativado.
 Importação com pendências. Leia PENDENCIAS.md; catálogo não ativado.
 Importação com pendências. Leia PENDENCIAS.md; catálogo não ativado.
 Proposta criada. Leia REVISAO.md e servicos.csv; aprovação manual por SHA ainda é obrigatória.
-
-2026-10-26 UTC. Workspace Linux; Python 3.12.14, Node v24.22.1.
-python -m py_compile *.py: PASS
-node --test gateway/test_guard.mjs: 17/17 PASS
-node --check gateway/server.mjs: PASS
-Testes Python: 42/42 PASS. Dados sinteticos; IA e canal mockados.
-Windows/PowerShell/Docker build/modelo real/QR/WhatsApp real: NAO EXECUTADOS.
-Teste symlink: no Windows sem privilegio apenas esse caso sera SKIP; teste de segredo separado continua executado.
-
-27/10/2026 — PATCH REAL WINDOWS
-43 testes Python no Windows (Python3.13.13): PASS; sintaxe3PS1 e helper Python real: PASS.
-Codex CLI autenticado geracao real ok_sintetico exit0: PASS. Claude login: PASS, geracao nao testada.
-PowerShell5.1 bloqueou scripts por politica; sem bypass. Dockerdaemonpipe ausente; sem QR/envio.
-Apos integrar patch no cloud Linux: 43 Python +17 Node +HTTP mock PASS; py_compile/node --check PASS.
-
-27/10/2026 — NODE NATIVO WINDOWS
-43Python+17Node,sintaxePS/JS e HTTPmockWindows: PASS conforme executor local.
-Launcher recusou baileys ausente antes de config/pareamento. Node24.15/npm11.17 existentes.
-Nenhum npm install, dependencias reais, QR ou WhatsApp real executados.
-Apos integrar Node nativo em cloud Linux:43Python+17Node+HTTPmock+py_compile+node --check PASS.
-
-ATUALIZACAO NODE REAL Windows: npmci --ignore-scripts,imports Baileys/qrcode PASS; healthconsent_required/connected:false;QR409/send503/API401/eventosvazios. Tokenefemero,processoparado,semconfigpersistente/QR/WhatsAppconectado.43Python17NodePASS.
+Python compilation PASS

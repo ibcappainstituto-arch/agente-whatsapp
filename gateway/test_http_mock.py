@@ -46,7 +46,7 @@ def main():
         raise SystemExit('Node required; no dependencies will be installed.')
     with tempfile.TemporaryDirectory(prefix='kit_mock_gateway_') as temp:
         work = Path(temp)
-        for name in ('server.mjs', 'guard.mjs'):
+        for name in ('server.mjs', 'guard.mjs', 'disconnect-diagnostic.mjs', 'qr-lifecycle.mjs'):
             shutil.copy2(ROOT / name, work / name)
         mock_dir = work / 'node_modules' / 'baileys'
         mock_dir.mkdir(parents=True)

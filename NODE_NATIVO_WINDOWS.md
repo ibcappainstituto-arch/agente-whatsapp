@@ -27,3 +27,7 @@ Continua NÃO validado: Baileys conectado, pareamento e envio. Instalação/impo
 6. Não execute Node e Docker juntos. Ctrl+C encerra o agente; o launcher encerra somente o processo Node que ele criou e preserva sessão/journal privados.
 
 Baileys é a biblioteca do gateway implementado neste kit. Referências ao OpenWA em materiais históricos não significam que o pacote OpenWA seja usado nesta versão.
+
+## Bloqueio de prontidão após o piloto
+
+Antes de qualquer novo pareamento, leia QR_DIAGNOSTICO_20261027.md. O gateway foi corrigido offline para não fornecer QR localmente após15s/invalidação; isso não corrige nem comprova a conexão real. Não entregue QR por chat. Visualizador privado LOCAL com atualização por eventos e remoção na expiração/desconexão ainda precisa ser implementado/validado; os SVG estáticos dos launchers não atendem ao requisito. Pare na preparação offline até cumprir esse critério e obter autorização para ensaio ponta a ponta. Não anunciar o agente pronto nem iniciar nova demonstração automática.

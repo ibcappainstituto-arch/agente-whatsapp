@@ -20,7 +20,7 @@ Checagens sem criar configuração:
 node --version
 npm --prefix gateway ls --depth=0
 python -m unittest discover -s tests -q
-node --test gateway/test_guard.mjs
+node --test gateway/test*.mjs
 ```
 
 Depois de configuração, fonte e consentimentos explicitamente autorizados, o comando técnico do gateway é `node server.mjs` dentro de gateway. O assistente precisa fornecer ao processo as variáveis autorizadas GATEWAY_TOKEN, ALLOWED_NUMBERS, WHATSAPP_PAIRING_CONSENT, DATA_DIR absoluto e GATEWAY_BIND_HOST=127.0.0.1. Não imprimir valores. O projeto não recebe permissão para gerar esses valores nesta preparação.
@@ -36,3 +36,7 @@ Invoke-RestMethod -Uri http://127.0.0.1:3210/health
 Parar: Ctrl+C no terminal do gateway e no terminal do agente. Se o assistente iniciou em background, encerrar somente os PIDs que ele próprio iniciou, sem matar outros processos Node ou aplicativos. O auxiliar INICIAR_NODE.ps1 já preparado pode ser inspecionado como referência de orquestração; não é uma atividade extra exigida do aluno nem autorização para executar scripts bloqueados por política.
 
 API em 127.0.0.1:3210, sem painel de gestão. Dados de sessão/journal em dados/gateway-node; nada do Docker ou instalações antigas é copiado. QR é privado e só pode ser obtido depois de consentimento; não abrir/projetar durante compartilhamento da aula. Configuração persistente, importação real da fonte, pareamento e envio continuam pendentes de autorização.
+
+## Bloqueio de prontidão após o piloto
+
+Antes de qualquer novo pareamento, leia QR_DIAGNOSTICO_20261027.md. O gateway foi corrigido offline para não fornecer QR localmente após15s/invalidação; isso não corrige nem comprova a conexão real. Não entregue QR por chat. Visualizador privado LOCAL com atualização por eventos e remoção na expiração/desconexão ainda precisa ser implementado/validado; os SVG estáticos dos launchers não atendem ao requisito. Pare na preparação offline até cumprir esse critério e obter autorização para ensaio ponta a ponta. Não anunciar o agente pronto nem iniciar nova demonstração automática.

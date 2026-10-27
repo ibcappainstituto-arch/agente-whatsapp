@@ -145,3 +145,7 @@ Não publique esses itens em GitHub, ZIP compartilhado ou tela de aula.
 
 
 O detector Claude aceita o executavel nativo existente na instalacao npm oficial quando o PATH retorna apenas wrapper. Nao executa o wrapper e nao altera PATH persistentemente.
+
+## Bloqueio de prontidão após o piloto
+
+Antes de qualquer novo pareamento, leia QR_DIAGNOSTICO_20261027.md. O gateway foi corrigido offline para não fornecer QR localmente após15s/invalidação; isso não corrige nem comprova a conexão real. Não entregue QR por chat. Visualizador privado LOCAL com atualização por eventos e remoção na expiração/desconexão ainda precisa ser implementado/validado; os SVG estáticos dos launchers não atendem ao requisito. Pare na preparação offline até cumprir esse critério e obter autorização para ensaio ponta a ponta. Não anunciar o agente pronto nem iniciar nova demonstração automática.

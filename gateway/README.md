@@ -4,7 +4,7 @@ O cérebro roda no Windows. O canal usa este gateway Baileys em Node local (reco
 
 ## Estado de validação
 
-- Código de proteção testado com `node --test gateway/test_guard.mjs` sem dependências ou conta.
+- Código de proteção testado com `node --test gateway/test*.mjs` sem dependências ou conta.
 - Integração HTTP com Baileys substituído por mock local (`python gateway/test_http_mock.py`): handshake515 limitado, credenciais persistidas antes de reconectar, idempotência, bloqueio de resposta incerta e journal. Não valida a biblioteca real nem WhatsApp.
 - Sintaxe de `server.mjs` conferida por `node --check`.
 - Smoke HTTP local sem consentimento: saúde desconectada, API sem token recusada, buffer vazio, QR indisponível e envio recusado; nenhuma sessão criada nem dependência Baileys importada.
@@ -25,8 +25,8 @@ Todos os endpoints exceto `/health` requerem `Authorization: Bearer <GATEWAY_TOK
 
 - `GET /health`: `{status,connected}`. Estado do processo; não comprova entrega nem que a IA está autenticada.
 - `GET /events?after=0`: `{events:[{id,chat_id,text,timestamp,kind,cursor}],cursor}`. Timestamp Unix em segundos; cursor numérico. `kind`: `incoming` ou `human_takeover`. Buffer em memória até 1000 eventos/10 minutos; não reprocessa histórico após reinício. Perda de eventos é preferível a disparos antigos.
-- `GET /qr`: `{status,qr}`; payload de pareamento sensível, só após consentimento.
-- `GET /qr.svg`: SVG para abrir privadamente. Não projetar, imprimir em logs nem compartilhar a tela. Expira em até 45 segundos; gerar novo arquivo quando necessário. Apague arquivos locais após parear.
+- `GET /qr`: `{status,qr,expires_in_ms}`; payload sensível, só após consentimento. Sem QR disponível: string vazia e prazo zero. Prazo restante é apenas a janela local, não garantia do WhatsApp.
+- `GET /qr.svg`: SVG para abrir privadamente. Não projetar, imprimir em logs nem compartilhar a tela. A API deixa de fornecer o QR após no máximo 15 segundos e invalida em renovação, início/fim de transporte e confirmação de novo login. Revalida após renderizar SVG. **Uma imagem já salva/aberta não se autoapaga nem se atualiza:** não a entregue por chat nem a use como visualizador de aula. UI privada local com renovação e remoção automática ainda pendente; veja QR_DIAGNOSTICO_20261027.md na raiz.
 - `POST /send`: JSON `{event_id,chat_id,text,idempotency_key}`. Chave idempotente URL-safe 16–128 caracteres; texto até 4000 caracteres. Retorna `{message_id,state:"sent"}` quando a biblioteca entrega recibo local de envio — não comprova leitura ou entrega no celular.
 
 Somente um envio por entrada registrada, recente e autorizada. Journal é persistido **antes** do efeito externo. Falha ambígua retorna `uncertain_send_do_not_retry`; não reenviar automaticamente. Verifique manualmente o WhatsApp antes de qualquer ação. Não existe endpoint para campanhas, retomadas agendadas, leitura de contatos ou grupos. Media/anexos e identificadores `@lid` são ignorados por segurança; se a biblioteca fornecer apenas LID, a conversa não será atendida neste kit.
@@ -49,3 +49,11 @@ Mensagem manual de saída em chat autorizado gera `human_takeover`. O agente hos
 ## Preparação real posterior no Windows
 
 Baileys7.0.0-rc14/qrcode1.5.4 instalados somente no projeto via npm canônico e --ignore-scripts;124 entradas de dependências no lock mais raiz,98 pacotes aplicáveis instalados. Imports reais passaram. Health consent_required/connected:false,QR409,send503,API não autenticada401,eventos vazios. Token apenas efêmero; processo encerrado; nenhuma sessão/configuração persistente. Isso não comprova conexão WhatsApp.
+
+## Correção offline de QR e diagnóstico — 27/10/2026
+
+A fonte [socket.ts da versão rc14](https://github.com/WhiskeySockets/Baileys/blob/v7.0.0-rc14/src/Socket/socket.ts) usa 60 s no primeiro QR e 20 s nos seguintes, salvo qrTimeout explícito (não configurado pelo kit). O limite anterior de 45 s podia expor QR subsequente expirado. O limite local conservador passou a 15 s, com relógio monotônico, sem renovação por evento duplicado. É uma correção de exposição local, não prova de validade no servidor nem explicação das desconexões anteriores.
+
+Desconexões futuras registram somente horário, código numérico e classificações de lista fechada em DATA_DIR/last-disconnect.json. Erro bruto, stack, QR, sessão, número e mensagens não são registrados. Código408 isolado não distingue timeout de esgotamento de referências QR. Diagnóstico real anterior indisponível; causa não determinada. Não houve conexão real para validar esta instrumentação.
+
+Testes adicionais: `node --test gateway/test*.mjs` e `python gateway/test_http_qr_mock.py` (módulos falsos locais). Execute os dois HTTP mocks separadamente: usam a mesma porta3210.
