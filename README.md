@@ -1,6 +1,6 @@
 # Agente de WhatsApp conduzido pelo Claude Code
 
-> **Candidato de QA:** esta revisão do visualizador está em validação offline; aguarda testes Windows. Não comprova GUI visível, pareamento ou WhatsApp ponta a ponta. Não usar para demonstração autônoma.
+> **Correção técnica offline validada:** parsing PowerShell e Tk real oculto com pixel sintético passaram no Windows. Não comprova layout visível, pareamento ou WhatsApp ponta a ponta. Não usar para demonstração autônoma.
 
 **Abra a pasta no Claude Code autenticado e use [o comando02](COMANDO_02_CLAUDE_CODE.md).** Não há aplicativo Windows para instalar, wizard obrigatório ou Docker obrigatório. O projeto ainda não está homologado para aula/operação autônoma.
 
@@ -22,9 +22,11 @@ Repositório: https://github.com/ibcappainstituto-arch/agente-whatsapp
 ## Correções e evidências
 
 - QR: limite local15s, invalidação por eventos e bloqueio de timer tardio após pareamento. Diagnóstico sanitizado, sem erro bruto/segredos. **Causa das desconexões anteriores não determinada.**
-- [Visualizador privado](VISUALIZADOR_QR_PRIVADO.md): janela Tkinter, PNG só em memória, leitura autenticada local, prazo/estado e retirada conservadora do quadro. Launchers não salvam SVG. GUI Windows ainda precisa de validação.
+- [Visualizador privado](VISUALIZADOR_QR_PRIVADO.md): janela Tkinter, PNG só em memória, leitura autenticada local, prazo/estado e retirada conservadora do quadro. Launchers não salvam SVG. Tk real oculto com pixel sintético e parsing dos scripts passaram no Windows; layout visível e operação dos launchers continuam pendentes.
 - Revisão Linux: **79 testes Python e36 Node**, incluindo HTTP de quadro mockado; mais dois HTTP mocks independentes. Não são testes WhatsApp.
 - Windows:44 testes Python da base/CLI passaram. Codex e Claude geraram respostas sintéticas reais. Claude também passou com marcadores de sessão **simulados e preservados**; isso não foi execução no terminal interno do app. [Limite exato](VALIDACAO_CLAUDE_20261027.md).
 - Dependências reais instaladas/importadas no projeto Windows com scripts desativados; lockfile incluído. Preparação real do gateway respondeu desconectado. O piloto posterior encerrou sem registro/conexão confirmados e sem envio.
 
-**Ainda pendentes:** GUI/ACL e launchers atuais no Windows, condução real no terminal interno do Claude Code, fonte comercial aprovada e conversa WhatsApp ponta a ponta. Nenhum novo piloto deve ser iniciado sem combinar e autorizar o ensaio. Prontidão exige duas trocas, com resposta vista no segundo telefone; QR, health e logs não comprovam entrega. Consulte [VALIDACAO.md](VALIDACAO.md).
+**Ainda pendentes:** layout visível/ACL e operação dos launchers no Windows, condução real no terminal interno do Claude Code, fonte comercial aprovada e conversa WhatsApp ponta a ponta. Nenhum novo piloto deve ser iniciado sem combinar e autorizar o ensaio. Prontidão exige duas trocas, com resposta vista no segundo telefone; QR, health e logs não comprovam entrega. Consulte [VALIDACAO.md](VALIDACAO.md).
+
+[Relatório Windows isolado](VALIDACAO_UI_WINDOWS_20261027.md):77 testes Python passaram,1 skip POSIX; HTTP Node excluído dessa etapa. Sem gateway/QR/envio. `.gitattributes` preserva bytes para o manifesto sem alterar Git global.

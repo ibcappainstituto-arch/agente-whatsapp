@@ -1,0 +1,3 @@
+# Preserve repository bytes for MANIFESTO-SHA256.json on every platform.
+# Per-repository rule only: no global core.autocrlf change or silent rewrite.
+* -text

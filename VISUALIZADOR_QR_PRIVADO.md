@@ -1,6 +1,6 @@
-# Visualizador QR privado — implementado, validação gráfica pendente
+# Visualizador QR privado — implementado, Tk oculto validado; layout visível pendente
 
-Integrado ao kit após a correção QR do commit `30b99a53dfed4f39607fff0316d08853c065d011`. Não é instalador, plugin, serviço público ou integração nativa do Claude. Testes offline passaram; interface gráfica real Windows e fluxo WhatsApp continuam pendentes.
+Integrado ao kit após a correção QR do commit `30b99a53dfed4f39607fff0316d08853c065d011`. Não é instalador, plugin, serviço público ou integração nativa do Claude. Testes offline passaram; Tk real oculto passou no Windows; layout visível e fluxo WhatsApp continuam pendentes.
 
 ## O que está implementado
 
@@ -25,7 +25,7 @@ O endpoint novo reutiliza a sessão, autenticação e biblioteca `qrcode` **já 
 
 Use o Python existente do projeto, em sessão gráfica **privada**. O comando técnico é `python qr_viewer.py` na raiz, sem token, URL ou caminho como argumento. O assistente pode iniciá-lo no terminal, mantendo a janela fora de projeção/compartilhamento. A janela começa oculta; **Exibir nesta tela privada** inicia somente consultas de leitura ao gateway já autorizado. O visualizador não inicia gateway ou WhatsApp, não cria `.env` e não concede consentimentos.
 
-Os launchers opcionais `INICIAR_NODE.ps1` e `INICIAR.ps1` foram atualizados para abrir esse processo e encerrá-lo no cleanup. Não salvam QR em disco nem reabrem SVG a cada35s. Fazem preflight de importação Tk, sem instalação ou bypass. A leitura de configuração usa UTF8 explícito para não corromper nomes no Windows PowerShell5.1. A revisão atual dos launchers ainda não foi executada/parseada no Windows.
+Os launchers opcionais `INICIAR_NODE.ps1` e `INICIAR.ps1` foram atualizados para abrir esse processo e encerrá-lo no cleanup. Não salvam QR em disco nem reabrem SVG a cada35s. Fazem preflight de importação Tk, sem instalação ou bypass. A leitura de configuração usa UTF8 explícito para não corromper nomes no Windows PowerShell5.1. Os quatro scripts passaram no parser Windows PowerShell5.1/PowerShell7; execução operacional dos launchers permanece pendente.
 
 Se iniciado separadamente, fechar a janela **não para o gateway** nem autoriza envio: o assistente precisa encerrar os processos que iniciou ao terminar. Se o launcher iniciar a janela e ela fechar antes da confirmação de conexão, o launcher cancela e encerra seu próprio gateway. `/qr.svg` é compatibilidade técnica, não fallback de interface nem caminho de aula.
 
@@ -50,4 +50,6 @@ python gateway/test_http_qr_mock.py
 
 Os testes usam apenas texto sintético e um PNG branco de 1×1 pixel — **não é um QR**. Nestes testes do visualizador não houve autenticação real, conexão WhatsApp, pareamento, envio ou screenshot. As gerações Claude externas documentadas separadamente não foram usadas pela UI.
 
-**Pendente:** interface gráfica real no Windows, ACL local, decodificação/desenho real pelo Tk Windows, QR real, leitura pelo telefone e integração completa com o fluxo Claude Code. Testes de controlador com widgets falsos não validam esses itens. Neste executor, o módulo Tk 9.0 é importável, mas não há DISPLAY/Wayland; nenhuma janela Tk foi criada.
+**Atualização Windows:** Tk8.6.15 real em janela withdrawn decodificou pixel branco1×1 e passou os controles/expiração, exit0. **Pendente:** layout visível, ACL local, operação dos launchers, QR real/leitura pelo telefone e integração completa com o fluxo Claude Code. Testes de controlador com widgets falsos não validam esses itens. Neste executor, o módulo Tk 9.0 é importável, mas não há DISPLAY/Wayland; nenhuma janela Tk foi criada.
+
+Evidência detalhada e limites: [VALIDACAO_UI_WINDOWS_20261027.md](VALIDACAO_UI_WINDOWS_20261027.md). Nenhuma nova conexão ou pareamento foi realizado.

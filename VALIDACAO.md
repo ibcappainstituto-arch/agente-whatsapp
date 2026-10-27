@@ -12,7 +12,7 @@
 - Compilação Python e sintaxe Node verificadas. Saídas em `TESTES-EXECUTADOS.txt` e `gateway/TESTES-EXECUTADOS.txt`.
 - Módulos Baileys/qrcode falsos escritos localmente, entradas sintéticas e PNG branco1×1, não QR de conta. Nenhuma instalação npm, modelo real, gateway WhatsApp real, login, pareamento ou envio nesta revisão.
 - Tk9.0 importável, mas sem DISPLAY/Wayland. **Nenhuma janela real foi criada aqui.** Controlador com widgets falsos não valida desenho/decodificação no Tk Windows.
-- PowerShell indisponível aqui: os launchers alterados receberam revisão textual e testes de contrato, **não parsing/runtime Windows**.
+- PowerShell indisponível aqui: os launchers alterados receberam revisão textual e testes de contrato, **não parsing/runtime Windows neste workspace**; parsing foi aprovado posteriormente no executor Windows, conforme atualização abaixo.
 
 ## Evidências reais anteriores no Windows
 
@@ -23,7 +23,7 @@
 - Versões anteriores dos scripts tiveram sintaxe PowerShell conferida e helper executado. Windows PowerShell5.1 bloqueou dot-source por política; não foi alterada/contornada. Isso não valida os launchers modificados posteriormente para o visualizador.
 - Node24.15.0/npm11.17.0 existentes. Baileys7.0.0-rc14/qrcode1.5.4 instalados somente no projeto por npm canônico com `--ignore-scripts`;124 entradas de dependências no lock mais raiz;98 pacotes aplicáveis ao Windows. Nenhum lifecycle executado.
 - Lock SHA256 `9cc312f9812aae819ce9c61cd2265c2fd594e52defdd39e65163953f0bbf0fed`. Imports reais passaram sem conexão. Preparação: health `consent_required/connected:false`, QR409,send503,API sem token401,eventos vazios; token efêmero e processo encerrado.
-- Patch de observabilidade anterior passou20Node eHTTPmock no Windows. Novos testes de ciclo QR, quadro e GUI ainda não repetidos ali.
+- Patch de observabilidade anterior passou20Node eHTTPmock no Windows. A atualização abaixo registra a suíte/GUI oculto executados depois; testes Node não foram repetidos nessa etapa isolada.
 - Docker CLI29.8/Compose5.5 existentes, desktop/backend abertos com autorização; daemon Linux indisponível no último probe, pipe ausente. **Imagem/build Docker não executados.** COPY atualizado por revisão para incluir módulos novos.
 
 ## Encerramento do piloto e correções
@@ -36,7 +36,7 @@ O [visualizador local](VISUALIZADOR_QR_PRIVADO.md) consulta somente a API autent
 
 ## Critério de conclusão ainda não atingido
 
-1. Validar GUI/Tk e permissões locais Windows com conteúdo sintético; validar launchers atuais.
+1. Validar layout visível e permissões locais Windows; executar os launchers no fluxo real autorizado. Tk oculto sintético e parsing dos scripts já passaram.
 2. Verificar condução dos processos no terminal interno efetivo do Claude Code, sem remover proteções.
 3. Revisar/aprovar explicitamente os seis Markdown e proposta comercial; formulários/depoimentos não substituem validação técnica.
 4. Em horário combinado, autorizar pareamento e envio a contato de teste consentido; confirmar duas trocas com resposta vista no segundo telefone.
@@ -51,3 +51,7 @@ Sem esses resultados, não chamar o agente de pronto para aula/operação. Nenhu
 - Código publicado somente no repositório autorizado `ibcappainstituto-arch/agente-whatsapp`; licença preservada, nenhuma fonte real/configuração/sessão publicada. Publicação e hashes conferidos não substituem E2E.
 
 Ausência de API paga no código não garante cota futura nem que cobrança extra da conta esteja desligada. O kit não lê nem altera configurações privadas de billing.
+
+## Resultado Windows da revisão UI
+
+Commit QA bdd4d1a7:58arquivos conferidos;78testesPython incluídos,77PASS+1skipPOSIX, HTTPNode excluído por restrição da etapa. Parsing4/4PS1 PASS em PowerShell7.6.5 eWindowsPowerShell5.1.26100.9711. Tk8.6.15 real WITHDRAWN:pixelbranco1×1,clear,expiração,pause/resume,desconectado,worker tardio eclose PASS,exit0,1378ms. Python3.13.13/Windows26200. Nenhumgateway/QR/auth/conexão/envio,porta3210fechada. **Não valida layout visível, ACL, operação dos launchers ou E2E.** Detalhes: VALIDACAO_UI_WINDOWS_20261027.md.
