@@ -65,6 +65,12 @@ class CLITests(unittest.TestCase):
                 self.assertNotIn("NUNCA_EXIBIR", str(erro.exception))
                 run.assert_not_called()
 
+    def test_marcadores_sessao_claude_preservados(self):
+        with patch.dict(os.environ, {"CLAUDECODE": "1", "CLAUDE_CODE_ENTRYPOINT": "cli"}):
+            ambiente = cli._ambiente()
+            self.assertEqual(ambiente["CLAUDECODE"], "1")
+            self.assertEqual(ambiente["CLAUDE_CODE_ENTRYPOINT"], "cli")
+
     def test_login_api_codex_e_claude_bloqueado(self):
         for motor, stdout in (("codex", "Logged in using an API key"),
                               ("claude", '{"loggedIn":true,"authMethod":"api_key"}')):

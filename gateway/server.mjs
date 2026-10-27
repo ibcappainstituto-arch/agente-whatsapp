@@ -6,6 +6,7 @@ import { join, isAbsolute } from 'node:path';
 import { allowlist, authorized, normalize, verifySend, mayRestartTransport, TTL_SECONDS } from './guard.mjs';
 import { disconnectDiagnostic } from './disconnect-diagnostic.mjs';
 import { createQrLifecycle } from './qr-lifecycle.mjs';
+import { renderPrivateFrame } from './qr-frame.mjs';
 
 const token = process.env.GATEWAY_TOKEN || '';
 if (!/^[A-Za-z0-9_-]{32,256}$/.test(token)) throw new Error('GATEWAY_TOKEN must be 32+ random URL-safe characters.');
@@ -67,6 +68,17 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET' && url.pathname === '/qr') {
       const current = consent && !stopping && status === 'qr_required' ? qrState.snapshot() : null;
       return reply(res, 200, {status, qr: current?.value || '', expires_in_ms: qrState.remainingMs(current)});
+    }
+    if (req.method === 'GET' && url.pathname === '/qr/frame') {
+      const result = await renderPrivateFrame({
+        state: qrState, status: () => status,
+        active: () => consent && !stopping && status === 'qr_required',
+        renderPng: async value => {
+          const QRCode = (await import('qrcode')).default;
+          return QRCode.toBuffer(value, {type: 'png', errorCorrectionLevel: 'L', margin: 4, width: 400});
+        }
+      });
+      return reply(res, result.code, result.body);
     }
     if (req.method === 'GET' && url.pathname === '/qr.svg') {
       const current = consent && !stopping && status === 'qr_required' ? qrState.snapshot() : null;

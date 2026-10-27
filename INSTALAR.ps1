@@ -12,7 +12,7 @@ if (-not (Test-Path -LiteralPath '.\config.local.json')) {
   Invoke-KitPython .\agente.py preparar --motor $motor --nome $nome --numeros $numeros
   if ($LASTEXITCODE -ne 0) { throw 'Configuracao nao concluida.' }
 }
-$config = Get-Content -Raw -LiteralPath '.\config.local.json' | ConvertFrom-Json
+$config = Get-Content -Raw -Encoding UTF8 -LiteralPath '.\config.local.json' | ConvertFrom-Json
 if (-not (Test-Path -LiteralPath '.\fonte_comercial\servicos.csv')) {
   $pasta = Read-Host 'Caminho completo da pasta conhecimento_agente ja criada (seis Markdown)'
   Invoke-KitPython .\importar_conhecimento.py --pasta $pasta --motor $config.motor --destino '.\fonte_comercial'

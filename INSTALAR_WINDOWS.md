@@ -104,12 +104,12 @@ Execute o script abaixo somente se a política atual do Windows permitir. Se blo
 
 1. O script verifica Node, dependências locais exatas, porta livre, fonte e login por assinatura; exibe a lista fechada de números. Não roda npm nem instala nada.
 2. Só a palavra **PAREAR** autoriza iniciar o gateway e conectar a conta de teste. Se as dependências estiverem ausentes, pare e obtenha autorização específica para instalá-las; não use instalação silenciosa.
-3. O QR é aberto em arquivo SVG privado. **Pare o compartilhamento de tela antes.** No WhatsApp,
+3. O QR é mostrado pelo visualizador local `qr_viewer.py`, somente em memória. **Pare o compartilhamento de tela antes.** No WhatsApp,
    use Aparelhos conectados e escaneie no seu próprio computador. Não envie QR por chat, slide ou grupo.
 4. Após a conexão, só a palavra **ENVIAR** libera respostas a novas entradas dessa allowlist durante a sessão.
 5. Envie do segundo número uma mensagem de teste **depois** de aparecer “Agente ligado”. Histórico anterior é descartado.
 6. Confira manualmente os dois celulares. Recibo do gateway não é prova de entrega ou leitura.
-7. Ctrl+C encerra o agente; o script retira autorização de envio, para o gateway e remove o arquivo QR.
+7. Ctrl+C encerra o agente; o script retira autorização de envio, para o gateway e encerra a janela privada, sem arquivo QR.
 
 O pareamento e o uso extra do plano pertencem ao titular da conta. Não conecte número principal de trabalho sem avaliar risco.
 No caminho Node, a sessão e o journal permanecem em `dados/gateway-node`; para revogar, desconecte o dispositivo no próprio WhatsApp. Não apague essa pasta sem decidir conscientemente perder sessão e journal.
@@ -146,6 +146,8 @@ Não publique esses itens em GitHub, ZIP compartilhado ou tela de aula.
 
 O detector Claude aceita o executavel nativo existente na instalacao npm oficial quando o PATH retorna apenas wrapper. Nao executa o wrapper e nao altera PATH persistentemente.
 
-## Bloqueio de prontidão após o piloto
+## Prontidão após a correção offline
 
-Antes de qualquer novo pareamento, leia QR_DIAGNOSTICO_20261027.md. O gateway foi corrigido offline para não fornecer QR localmente após15s/invalidação; isso não corrige nem comprova a conexão real. Não entregue QR por chat. Visualizador privado LOCAL com atualização por eventos e remoção na expiração/desconexão ainda precisa ser implementado/validado; os SVG estáticos dos launchers não atendem ao requisito. Pare na preparação offline até cumprir esse critério e obter autorização para ensaio ponta a ponta. Não anunciar o agente pronto nem iniciar nova demonstração automática.
+O visualizador privado local foi implementado em `qr_viewer.py`, com PNG somente em memória, prazo local visível e retirada ao expirar, perder foco ou observar desconexão. Leia [VISUALIZADOR_QR_PRIVADO.md](VISUALIZADOR_QR_PRIVADO.md). Não transportar QR por chat nem usar SVG estático. Os launchers opcionais agora usam esse visualizador, sem salvar imagem.
+
+Os testes de lógica/controlador/HTTP são offline; **GUI/Tk/ACL no Windows e os launchers alterados ainda precisam de validação local**. Claude gerou respostas reais externas, inclusive com marcadores de contexto simulados preservados; terminal interno do app continua não testado. Antes de novo piloto, validar a interface com conteúdo sintético e combinar ensaio real autorizado. Só considerar pronto depois de fonte aprovada, pareamento e duas trocas com resposta vista no segundo telefone. Não anunciar aula autônoma/E2E concluído.

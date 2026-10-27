@@ -1,4 +1,4 @@
-Revisao offline QR/diagnostico — 2026-10-27 (Linux)
+Revisao UI privada + contexto Claude — 2026-10-27 (Linux)
 test_allowlist_vazia_bloqueia (test_agente.Runtime.test_allowlist_vazia_bloqueia) ... ok
 test_antiga_e_futura_bloqueadas (test_agente.Runtime.test_antiga_e_futura_bloqueadas) ... ok
 test_duplicado_nao_reenvia (test_agente.Runtime.test_duplicado_nao_reenvia) ... ok
@@ -30,8 +30,10 @@ test_codex_wrapper_resolve_binario_npm_sem_shell (test_cli_adapter.CLITests.test
 test_exit_nao_zero_nao_libera_mesmo_com_saida (test_cli_adapter.CLITests.test_exit_nao_zero_nao_libera_mesmo_com_saida) ... ok
 test_json_duplicado_nan_e_raiz_lista_bloqueados (test_cli_adapter.CLITests.test_json_duplicado_nan_e_raiz_lista_bloqueados) ... ok
 test_login_api_codex_e_claude_bloqueado (test_cli_adapter.CLITests.test_login_api_codex_e_claude_bloqueado) ... ok
+test_marcadores_sessao_claude_preservados (test_cli_adapter.CLITests.test_marcadores_sessao_claude_preservados) ... ok
 test_sem_fallback_motor_desconhecido (test_cli_adapter.CLITests.test_sem_fallback_motor_desconhecido) ... ok
 test_timeout_erro_sanitizado (test_cli_adapter.CLITests.test_timeout_erro_sanitizado) ... ok
+test_frame_auth_rotation_latch_race_and_reader (test_http_frame_mock.MockHttpTests.test_frame_auth_rotation_latch_race_and_reader) ... ok
 test_arquivo_obrigatorio_ausente_bloqueia_sem_ia (test_importacao.ImportacaoTests.test_arquivo_obrigatorio_ausente_bloqueia_sem_ia) ... ok
 test_evidencia_inventada_nao_cria_csv (test_importacao.ImportacaoTests.test_evidencia_inventada_nao_cria_csv) ... ok
 test_falha_cli_gera_pendencia_sem_aprovacao (test_importacao.ImportacaoTests.test_falha_cli_gera_pendencia_sem_aprovacao) ... ok
@@ -42,9 +44,43 @@ test_preco_inventado_nao_cria_csv (test_importacao.ImportacaoTests.test_preco_in
 test_preserva_seis_originais_sha_e_exige_aprovacao_separada (test_importacao.ImportacaoTests.test_preserva_seis_originais_sha_e_exige_aprovacao_separada) ... ok
 test_segredo_bloqueia_antes_da_ia (test_importacao.ImportacaoTests.test_segredo_bloqueia_antes_da_ia) ... ok
 test_symlink_bloqueia_antes_da_ia (test_importacao.ImportacaoTests.test_symlink_bloqueia_antes_da_ia) ... ok
+test_failed_refresh_clears_existing_photo (test_viewer_controller.ControllerTests.test_failed_refresh_clears_existing_photo) ... ok
+test_image_decode_error_is_hidden_without_exception_details (test_viewer_controller.ControllerTests.test_image_decode_error_is_hidden_without_exception_details) ... ok
+test_pause_focus_loss_and_close_clear_pixels (test_viewer_controller.ControllerTests.test_pause_focus_loss_and_close_clear_pixels) ... ok
+test_poll_hides_first_and_starts_only_one_worker (test_viewer_controller.ControllerTests.test_poll_hides_first_and_starts_only_one_worker) ... ok
+test_resume_keeps_old_image_hidden_until_new_result (test_viewer_controller.ControllerTests.test_resume_keeps_old_image_hidden_until_new_result) ... ok
+test_stale_completion_after_pause_cannot_redisplay (test_viewer_controller.ControllerTests.test_stale_completion_after_pause_cannot_redisplay) ... ok
+test_timer_clears_expired_image_without_network (test_viewer_controller.ControllerTests.test_timer_clears_expired_image_without_network) ... ok
+test_visible_local_lease_is_not_claimed_whatsapp_validity (test_viewer_controller.ControllerTests.test_visible_local_lease_is_not_claimed_whatsapp_validity) ... ok
+test_absent_duplicate_invalid_token_rejected (test_viewer_core.ConfigTests.test_absent_duplicate_invalid_token_rejected) ... ok
+test_large_file_rejected (test_viewer_core.ConfigTests.test_large_file_rejected) ... ok
+test_symlink_rejected_when_platform_allows_creation (test_viewer_core.ConfigTests.test_symlink_rejected_when_platform_allows_creation) ... ok
+test_valid_private_existing_env_only (test_viewer_core.ConfigTests.test_valid_private_existing_env_only) ... ok
+test_world_readable_secret_rejected (test_viewer_core.ConfigTests.test_world_readable_secret_rejected) ... ok
+test_begin_invalidates_old_qr_before_network (test_viewer_core.DisplayTests.test_begin_invalidates_old_qr_before_network) ... ok
+test_close_and_failure_clear_all_frames (test_viewer_core.DisplayTests.test_close_and_failure_clear_all_frames) ... ok
+test_deadline_clears_even_without_response (test_viewer_core.DisplayTests.test_deadline_clears_even_without_response) ... ok
+test_delivery_at_expiry_or_backwards_clock_rejected (test_viewer_core.DisplayTests.test_delivery_at_expiry_or_backwards_clock_rejected) ... ok
+test_generation_never_regresses_even_after_pause (test_viewer_core.DisplayTests.test_generation_never_regresses_even_after_pause) ... ok
+test_stale_worker_result_cannot_restore_after_hide (test_viewer_core.DisplayTests.test_stale_worker_result_cannot_restore_after_hide) ... ok
+test_bad_protocol_generation_expiry_and_json (test_viewer_core.TimingTests.test_bad_protocol_generation_expiry_and_json) ... ok
+test_expired_short_window_discarded (test_viewer_core.TimingTests.test_expired_short_window_discarded) ... ok
+test_lease_starts_before_request_and_not_on_arrival (test_viewer_core.TimingTests.test_lease_starts_before_request_and_not_on_arrival) ... ok
+test_max_lease_is_less_than_one_second (test_viewer_core.TimingTests.test_max_lease_is_less_than_one_second) ... ok
+test_png_dimensions_and_bytes_bounded (test_viewer_core.TimingTests.test_png_dimensions_and_bytes_bounded) ... ok
+test_slow_or_backward_response_rejected (test_viewer_core.TimingTests.test_slow_or_backward_response_rejected) ... ok
+test_terminal_states_never_return_image (test_viewer_core.TimingTests.test_terminal_states_never_return_image) ... ok
+test_auth_failure_and_rotated_frame_safe (test_viewer_core.TransportTests.test_auth_failure_and_rotated_frame_safe) ... ok
+test_content_type_cache_and_size_rejected (test_viewer_core.TransportTests.test_content_type_cache_and_size_rejected) ... ok
+test_delayed_reads_discarded (test_viewer_core.TransportTests.test_delayed_reads_discarded) ... ok
+test_only_loopback_exact_get_and_authorization_header (test_viewer_core.TransportTests.test_only_loopback_exact_get_and_authorization_header) ... ok
+test_redirects_are_rejected_never_followed (test_viewer_core.TransportTests.test_redirects_are_rejected_never_followed) ... ok
+test_token_absent_from_frame_repr (test_viewer_core.TransportTests.test_token_absent_from_frame_repr) ... ok
+test_config_is_read_as_utf8_and_no_dependency_install (test_viewer_launchers.ViewerLauncherContracts.test_config_is_read_as_utf8_and_no_dependency_install) ... ok
+test_viewer_only_no_static_image_or_token_argument (test_viewer_launchers.ViewerLauncherContracts.test_viewer_only_no_static_image_or_token_argument) ... ok
 
 ----------------------------------------------------------------------
-Ran 43 tests in 0.045s
+Ran 79 tests in 0.340s
 
 OK
 Importação com pendências. Leia PENDENCIAS.md; catálogo não ativado.

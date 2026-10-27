@@ -62,11 +62,9 @@ def executavel(nome: str) -> str:
 def _ambiente() -> dict[str, str]:
     if any(os.environ.get(k) for k in ENV_PROIBIDO):
         raise ErroCLI("Há configuração de API/provedor no ambiente. Remova-a deste terminal e use login por assinatura; nada foi executado.")
-    # Evita que o contexto de outro processo CLI desvie a chamada.
-    ambiente = dict(os.environ)
-    for k in ("CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT"):
-        ambiente.pop(k, None)
-    return ambiente
+    # Preserva marcadores do processo pai, inclusive a protecao de sessao
+    # aninhada do Claude Code. Nunca remover para forcar outra instancia.
+    return dict(os.environ)
 
 
 def _rodar(args: list[str], *, ambiente: dict[str, str], pasta: str, entrada: str | None = None,

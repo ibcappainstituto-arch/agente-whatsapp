@@ -1,79 +1,53 @@
-# Evidências e limites — atualizado em 27/10/2026
+# Evidências e limites — 27/10/2026
 
-## Executado neste workspace Linux
+## Estado atual
 
-- Testes unitários Python com entradas sintéticas e CLIs/canal mockados.
-- Compilação Python.
-- Testes Node puros das regras de gateway e sintaxe JavaScript.
-- Smoke HTTP do servidor sem consentimento: estado desconectado; endpoints privados exigem token;
-  nenhuma sessão, QR ou envio permitido. Baileys não foi importado nesse smoke.
-- Métodos Codex conferidos no `--help` do CLI 0.163.0 local sem executar o modelo.
-- Métodos Claude e Baileys conferidos em documentação/código oficial.
+**Implementado e testado offline; não homologado para operação/aula autônoma.** A causa das desconexões do piloto não foi identificada. Correções de QR/observabilidade e visualizador não provam pareamento nem entrega.
 
-Contagens finais e saída dos comandos estão em `TESTES-EXECUTADOS.txt` e `gateway/TESTES-EXECUTADOS.txt`.
+## Revisão atual no workspace Linux
 
-## Verificação real no Windows — 27/10/2026
+- **79 testes Python:**44 da base/CLI,33 do visualizador/controlador/HTTP frame mock e2 contratos estáticos de launchers.
+- **36 testes Node:**17 regras do gateway,3 diagnóstico,8 ciclo QR e8 quadro privado.
+- Dois HTTP mocks independentes: idempotência/reinício515/resultado incerto; expiração/invalidação/corridas de renderização QR.
+- Compilação Python e sintaxe Node verificadas. Saídas em `TESTES-EXECUTADOS.txt` e `gateway/TESTES-EXECUTADOS.txt`.
+- Módulos Baileys/qrcode falsos escritos localmente, entradas sintéticas e PNG branco1×1, não QR de conta. Nenhuma instalação npm, modelo real, gateway WhatsApp real, login, pareamento ou envio nesta revisão.
+- Tk9.0 importável, mas sem DISPLAY/Wayland. **Nenhuma janela real foi criada aqui.** Controlador com widgets falsos não valida desenho/decodificação no Tk Windows.
+- PowerShell indisponível aqui: os launchers alterados receberam revisão textual e testes de contrato, **não parsing/runtime Windows**.
 
-Relatório completo: [VALIDACAO_WINDOWS_20261027.md](VALIDACAO_WINDOWS_20261027.md).
+## Evidências reais anteriores no Windows
 
-- Windows 10.0.26200.0; Python 3.13.13. **43 testes Python passaram no Windows**.
-- `py -3` não encontrou Python, mas `python` funcionou. Novo `PYTHON_WINDOWS.ps1` detecta uma opção funcional sem instalar programas nem alterar PATH/política.
-- Sintaxe dos três PS1 passou; helper executado no PowerShell do executor com Python real.
-- Codex autenticado por assinatura fez geração real pelo adaptador: `ok_sintetico`, exit 0.
-- Claude nativo 2.1.311 localizado e autenticação por assinatura confirmada; geração Claude **não testada**.
-- Docker Desktop/Compose instalados; processos abertos com autorização. Último probe: daemon Linux indisponível, pipe `dockerDesktopLinuxEngine` ausente.
-- Windows PowerShell 5.1 bloqueou dot-source por política. **Não alterada nem contornada**. Isso não autoriza bypass.
-- Nenhum `.env`, configuração, segredo de gateway, importação real, aprovação comercial, QR ou envio criado/executado.
-- Após incorporar o patch, no workspace Linux: 43 testes Python, 17 Node, compilação/sintaxe e integração HTTP mockada passaram novamente.
+- Windows10.0.26200.0, Python3.13.13. `py -3` não encontrou instalação; `python` funcionou. Helper seleciona executável funcional sem instalar/alterar PATH.
+- **44 testes Python de base/CLI passaram** após preservar `CLAUDECODE`/`CLAUDE_CODE_ENTRYPOINT`. Não remover marcadores para contornar proteção do fornecedor.
+- Codex autenticado por assinatura gerou `ok_sintetico`, exit0.
+- Claude nativo2.1.311 autenticado gerou `ok_sintetico`, exit0/success, em terminal externo. Outra geração externa, com marcadores de sessão simulados e preservados, retornou `ok_sintetico_aninhado`, exit0/success. **Terminal interno do aplicativo não testado.** Veja [VALIDACAO_CLAUDE_20261027.md](VALIDACAO_CLAUDE_20261027.md).
+- Versões anteriores dos scripts tiveram sintaxe PowerShell conferida e helper executado. Windows PowerShell5.1 bloqueou dot-source por política; não foi alterada/contornada. Isso não valida os launchers modificados posteriormente para o visualizador.
+- Node24.15.0/npm11.17.0 existentes. Baileys7.0.0-rc14/qrcode1.5.4 instalados somente no projeto por npm canônico com `--ignore-scripts`;124 entradas de dependências no lock mais raiz;98 pacotes aplicáveis ao Windows. Nenhum lifecycle executado.
+- Lock SHA256 `9cc312f9812aae819ce9c61cd2265c2fd594e52defdd39e65163953f0bbf0fed`. Imports reais passaram sem conexão. Preparação: health `consent_required/connected:false`, QR409,send503,API sem token401,eventos vazios; token efêmero e processo encerrado.
+- Patch de observabilidade anterior passou20Node eHTTPmock no Windows. Novos testes de ciclo QR, quadro e GUI ainda não repetidos ali.
+- Docker CLI29.8/Compose5.5 existentes, desktop/backend abertos com autorização; daemon Linux indisponível no último probe, pipe ausente. **Imagem/build Docker não executados.** COPY atualizado por revisão para incluir módulos novos.
 
-## Não executado / não alegado
+## Encerramento do piloto e correções
 
-- Instalação/preparação completa pelos scripts no Windows; PowerShell 5.1 bloqueou execução por política. Build e execução do gateway Docker não ocorreram.
-- Conexão estável/pareamento confirmado do Baileys. Houve tentativa posterior no piloto, encerrada sem registro confirmado; veja atualização pós-aula.
-- Geração Claude real e avaliação de billing. Autenticação dos dois CLIs e geração Codex real foram verificadas conforme seção acima.
-- Pareamento confirmado, mensagem WhatsApp real ou entrega no celular. Não inferir essas etapas da disponibilidade de QR ou de health local.
-- Canal com JIDs exclusivamente LID, anexos, áudio, documentos, Google Drive, Instagram ou follow-up.
+O executor relatou encerramento do processo piloto, sem listener3210, sessão preservada com `registered:false/connected:false`, envio desabilitado e nenhuma mensagem enviada. QR não foi entregue no chat nessa etapa. Trata-se de registro do encerramento, não monitoramento contínuo da máquina. Não apagar sessão/repetir pareamento para tentar contornar esse resultado.
 
-Não é produção homologada. O título correto é **kit de laboratório implementado com validação offline**.
+A fonte primária Baileysrc14 confirma primeiroQR60s/subsequentes20s. O limite local antigo45s podia expor QR vencido. Agora: limite conservador15s, relógio monotônico, invalidação e latch pós-pareamento, revalidação após renderização. Diagnóstico sanitizado futuro não recupera a causa anterior. Detalhes: [QR_DIAGNOSTICO_20261027.md](QR_DIAGNOSTICO_20261027.md).
 
-## Fontes
+O [visualizador local](VISUALIZADOR_QR_PRIVADO.md) consulta somente a API autenticada em loopback, mantém PNG em memória, oculta antes de renovar e mostra prazo local conservador. Polling tem atraso de observação; sistema/janela travados podem reter pixels. Não é garantia de apagamento remoto ou validade no WhatsApp. Sem imagem em chat, browser, token em query ou porta externa.
 
-- Adaptador comercial baseado na V2 local fornecida para esta tarefa, com revisão de catálogo determinística.
-- [Codex CLI oficial](https://developers.openai.com/codex/cli/) e help local 0.163.0.
-- [Claude CLI oficial](https://code.claude.com/docs/en/cli-reference) e [execução programática](https://code.claude.com/docs/en/headless).
-- Baileys, pacote e exemplo versionados: fontes completas em `gateway/README.md`.
+## Critério de conclusão ainda não atingido
 
-A ausência de API paga no código não garante que recursos de cobrança extra pré-ativados na conta estejam desligados.
-O titular deve verificar isso no fornecedor. O kit não lê nem altera configurações privadas de billing.
+1. Validar GUI/Tk e permissões locais Windows com conteúdo sintético; validar launchers atuais.
+2. Verificar condução dos processos no terminal interno efetivo do Claude Code, sem remover proteções.
+3. Revisar/aprovar explicitamente os seis Markdown e proposta comercial; formulários/depoimentos não substituem validação técnica.
+4. Em horário combinado, autorizar pareamento e envio a contato de teste consentido; confirmar duas trocas com resposta vista no segundo telefone.
 
-## Publicação do código
+Sem esses resultados, não chamar o agente de pronto para aula/operação. Nenhuma coleta de histórico foi ampliada para contornar instabilidade; ressalva LID permanece hipótese documentada. Anexos, áudio, LID exclusivo, campanhas e retomadas continuam fora do escopo.
 
-Publicado em 26/10/2026 no repositório público `ibcappainstituto-arch/agente-whatsapp`.
-Primeiro commit do kit: `f4f000435a395518ea77f3f8035c2c62e9feb1ec`.
-A branch remota e os hashes Git dos 31 arquivos foram conferidos. Publicação não substitui os testes reais pendentes acima.
+## Fontes e publicação
 
-## Node direto no Windows — 27/10/2026
+- [Codex CLI oficial](https://developers.openai.com/codex/cli/) e help local0.163.0.
+- [Claude CLI](https://code.claude.com/docs/en/cli-reference), [modo programático](https://code.claude.com/docs/en/headless) e ensaios Windows descritos acima.
+- Baileys/qrcode versionados: fontes em `gateway/README.md`.
+- Código publicado somente no repositório autorizado `ibcappainstituto-arch/agente-whatsapp`; licença preservada, nenhuma fonte real/configuração/sessão publicada. Publicação e hashes conferidos não substituem E2E.
 
-- Node 24.15.0/npm 11.17.0 já instalados; nenhuma instalação foi realizada para esse teste.
-- `INICIAR_NODE.ps1` adicionado: sem Docker, npm automático, mudanças de política ou criação automática de segredo. Recusa pacotes ausentes/versões divergentes antes de configuração/pareamento.
-- Servidor com bind padrão127.0.0.1 e DATA_DIR absoluto explícito; Compose mantém bind interno0.0.0.0 apenas para publicação externa127.0.0.1.
-- Windows: 43 testes Python,17 regras Node,sintaxe e integração HTTP mockada passaram. Launcher real parou ao encontrar baileys ausente.
-- Pacotes reais baileys7.0.0-rc14/qrcode1.5.4 e árvore npm não instalados/validados; nenhum QR, sessão WhatsApp ou mensagem real.
-- Caminho Node recomendado reduz pré-requisitos; não transforma mock em canal real validado.
-
-## Dependências reais e health Node no Windows — atualização27/10/2026
-
-- npm canônico, dependências diretas baileys7.0.0-rc14 e qrcode1.5.4; npm ci --ignore-scripts, nenhum lifecycle executado.
-- Lockfile v3 SHA2569cc312f9812aae819ce9c61cd2265c2fd594e52defdd39e65163953f0bbf0fed;124 entradas de dependências mais a raiz (125 objetos packages);98 pacotes instalados aplicáveis ao Windows.
-- Imports reais dos dois módulos passaram sem conexão. Health real consent_required/connected:false;QR409,send503,API sem token401,eventos vazios.
-- Token só efêmero; processo encerrado; nenhuma sessão/journal, .env ou configuração persistente.43Python/17Node passaram.
-- Isto supera apenas a pendência anterior de instalar/importar pacotes. Geração Claude real, Baileys conectado,pareamento e mensagem WhatsApp continuam pendentes.
-- Artefatos de evidência: PREPARACAO-NODE-CLAUDE-CODE-20261027.json e RODAR_NO_CLAUDE_CODE.md.
-
-## Atualização pós-aula: correção offline, sem reconexão
-
-O executor Windows relatou piloto encerrado, sem listener na porta3210, sessão preservada com registered:false e connected:false, envio desabilitado e nenhuma mensagem enviada. QR não foi entregue no chat. O diagnóstico das desconexões anteriores não estava disponível; não atribuímos causa. Isso não é ensaio ponta a ponta aprovado.
-
-Instrumentação de desconexão sanitizada incorporada por trechos, preservando o bind local, o caminho Node e o lockfile da HEADa57a435. Janela QR45s substituída por limite local15s e invalidação em eventos/expiração; renderização SVG revalida o mesmo snapshot após await. Fonte primária versionada confirma os defaults60s/20s do Baileys. Detalhes e limites: QR_DIAGNOSTICO_20261027.md.
-
-Verificação desta revisão em Linux:43Python,28Node,compilação/sintaxe e dois HTTP mocks passaram. O patch de observabilidade de origem teve20Node+HTTPmock aprovados no Windows; os testes novos de ciclo QR não foram executados no Windows. Não houve conexão/login/pareamento/envio para esta correção. UI local privada com atualização e retirada de QR expirado permanece pendente; SVG estático não satisfaz o critério. Não retomar demonstração antes de UI e ensaio ponta a ponta autorizados e concluídos. Fonte comercial aprovada também permanece pré-requisito; formulários ou depoimentos não substituem validação técnica.
+Ausência de API paga no código não garante cota futura nem que cobrança extra da conta esteja desligada. O kit não lê nem altera configurações privadas de billing.

@@ -65,7 +65,7 @@ def run_case(terminal):
         raise SystemExit('Node required; no dependencies will be installed.')
     with tempfile.TemporaryDirectory(prefix='kit_mock_qr_') as temp:
         work = Path(temp)
-        for name in ('server.mjs', 'guard.mjs', 'disconnect-diagnostic.mjs', 'qr-lifecycle.mjs'):
+        for name in ('server.mjs', 'guard.mjs', 'disconnect-diagnostic.mjs', 'qr-lifecycle.mjs', 'qr-frame.mjs'):
             shutil.copy2(ROOT / name, work / name)
         for name, code in [('baileys', BAILEYS), ('qrcode', QRCODE)]:
             target = work / 'node_modules' / name

@@ -1,33 +1,30 @@
 # Agente de WhatsApp conduzido pelo Claude Code
 
-**Abra esta pasta no Claude Code autenticado e use [o comando 02](COMANDO_02_CLAUDE_CODE.md).** Não há aplicativo Windows para instalar, wizard obrigatório ou Docker obrigatório.
+> **Candidato de QA:** esta revisão do visualizador está em validação offline; aguarda testes Windows. Não comprova GUI visível, pareamento ou WhatsApp ponta a ponta. Não usar para demonstração autônoma.
 
-Repositório correto: https://github.com/ibcappainstituto-arch/agente-whatsapp
+**Abra a pasta no Claude Code autenticado e use [o comando02](COMANDO_02_CLAUDE_CODE.md).** Não há aplicativo Windows para instalar, wizard obrigatório ou Docker obrigatório. O projeto ainda não está homologado para aula/operação autônoma.
 
-1. Se ainda não salvou seu conhecimento, use [comando01](COMANDO_01_SALVAR_CONHECIMENTO.md).
-2. Abra a pasta do repositório no Claude Code e siga [COMECE_NO_CLAUDE_CODE.md](COMECE_NO_CLAUDE_CODE.md).
-3. Aproveite os seis Markdown já preparados em `conhecimento_agente`; o importador preserva os originais e propõe catálogo rastreável, sem pedir redigitação.
+Repositório: https://github.com/ibcappainstituto-arch/agente-whatsapp
 
-O Claude Code conduz os processos **Node + Python deste projeto**, usando o CLI autenticado por assinatura. O canal WhatsApp é um **gateway Baileys próprio**, não uma integração nativa do Claude. Codex é um motor alternativo suportado. Referências a OpenWA pertencem a materiais históricos, não ao pacote usado aqui.
+1. Para preparar conhecimento, use [comando01](COMANDO_01_SALVAR_CONHECIMENTO.md).
+2. Siga [COMECE_NO_CLAUDE_CODE.md](COMECE_NO_CLAUDE_CODE.md), aproveitando os seis Markdown de `conhecimento_agente`. Originais são preservados; nenhuma redigitação manual em CSV é exigida.
+3. Claude Code conduz os processos **Node + Python deste projeto**. O WhatsApp depende de um **gateway Baileys próprio**, não integração nativa do Claude. Codex é motor alternativo. OpenWA é referência histórica, não o canal usado aqui.
 
 ## Limites e autorizações
 
-- Sem API paga nem fallback automático. Assinatura/cota continuam necessárias; app aberto não comprova login do CLI.
-- Dependências npm do projeto, gravação de chave/configuração, pareamento e envio exigem suas autorizações específicas. Nenhum launcher instala npm ou muda a política do sistema silenciosamente.
-- Gateway somente em127.0.0.1:3210 e allowlist fechada. Somente novas mensagens de contatos de teste consentidos; sem campanhas, grupos, anexos ou retomadas.
-- Recusa, intervenção humana e envio incerto pausam o chat. Nenhum reenvio automático após timeout.
-- Preços/contratação vêm da fonte revisada, não da resposta livre do modelo. Sem promessas de resultado judicial.
-- QR, `.env`, configuração, sessões e dados são privados. Nunca projetar QR ou publicar esses itens.
-- Scripts PowerShell e Docker são **suporte opcional**, não o percurso obrigatório do aluno. Não contornar bloqueio de política.
+- CLI por assinatura, sem API paga/fallback automático. Aplicativo aberto não prova login/cota.
+- Dependências npm, chave/configuração persistente, pareamento e envio têm autorizações específicas. Não instalar software de sistema nem alterar política silenciosamente.
+- Gateway somente em127.0.0.1:3210, allowlist fechada, novas entradas de contatos de teste consentidos; sem campanhas, grupos, anexos ou retomadas.
+- Preços/contratação dependem da fonte revisada. Recusa, intervenção humana e envio incerto pausam o chat; não reenviar após timeout.
+- QR, `.env`, configuração, sessão e dados ficam privados. Nunca publicar/projetar/transportar QR por chat.
+- Scripts PowerShell e Docker são suporte **opcional**. Não contornar bloqueio de política.
 
-## O que já foi verificado
+## Correções e evidências
 
-43 testes Python passaram no Windows e no Linux. A revisão offline atual passou 28 testes Node e dois cenários HTTP mockados; os novos testes QR ainda não foram repetidos no Windows. Codex autenticado gerou resposta real. Claude teve autenticação confirmada, sem geração real testada ainda. A preparação Node real instalou dependências somente no projeto com scripts desativados; imports Baileys/qrcode passaram e health real respondeu consent_required/connected:false. Lockfile reproduzível incluído; veja RODAR_NO_CLAUDE_CODE.md.
+- QR: limite local15s, invalidação por eventos e bloqueio de timer tardio após pareamento. Diagnóstico sanitizado, sem erro bruto/segredos. **Causa das desconexões anteriores não determinada.**
+- [Visualizador privado](VISUALIZADOR_QR_PRIVADO.md): janela Tkinter, PNG só em memória, leitura autenticada local, prazo/estado e retirada conservadora do quadro. Launchers não salvam SVG. GUI Windows ainda precisa de validação.
+- Revisão Linux: **79 testes Python e36 Node**, incluindo HTTP de quadro mockado; mais dois HTTP mocks independentes. Não são testes WhatsApp.
+- Windows:44 testes Python da base/CLI passaram. Codex e Claude geraram respostas sintéticas reais. Claude também passou com marcadores de sessão **simulados e preservados**; isso não foi execução no terminal interno do app. [Limite exato](VALIDACAO_CLAUDE_20261027.md).
+- Dependências reais instaladas/importadas no projeto Windows com scripts desativados; lockfile incluído. Preparação real do gateway respondeu desconectado. O piloto posterior encerrou sem registro/conexão confirmados e sem envio.
 
-**Não está pronto para operação/aula autônoma: pareamento, conversa WhatsApp ponta a ponta e geração Claude real ainda não foram validados.** A instalação/importação de dependências não comprova conexão nem entrega. Baileys é não oficial e pode sofrer instabilidade/restrições. Consulte [VALIDACAO.md](VALIDACAO.md).
-
-## Correção pós-aula: QR e diagnóstico
-
-Corrigida a janela local que podia expor QR expirado: no máximo15s, invalidação por eventos e proteção contra corrida durante renderização. Diagnóstico de desconexão registra apenas metadados sanitizados. **A causa da falha anterior não foi identificada, e esta correção não comprova pareamento.** O piloto foi encerrado sem conexão/registro confirmados e sem envio.
-
-Não transportar QR por chat: pode vencer antes da entrega. Falta validar um visualizador **privado local**, atualizado conforme eventos, que retire a imagem quando expirar/desconectar. Os launchers com SVG estático não atendem a esse critério. **Não iniciar novo piloto/aula com esse percurso enquanto a UI e o teste ponta a ponta não forem concluídos em momento autorizado.** Detalhes em [QR_DIAGNOSTICO_20261027.md](QR_DIAGNOSTICO_20261027.md).
+**Ainda pendentes:** GUI/ACL e launchers atuais no Windows, condução real no terminal interno do Claude Code, fonte comercial aprovada e conversa WhatsApp ponta a ponta. Nenhum novo piloto deve ser iniciado sem combinar e autorizar o ensaio. Prontidão exige duas trocas, com resposta vista no segundo telefone; QR, health e logs não comprovam entrega. Consulte [VALIDACAO.md](VALIDACAO.md).

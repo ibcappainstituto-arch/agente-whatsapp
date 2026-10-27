@@ -5,7 +5,7 @@
 export const QR_LOCAL_TTL_MS = 15_000;
 
 export function createQrLifecycle({clock = () => performance.now()} = {}) {
-  let current = null, lastValue = '', seen = false, pairingFinished = false;
+  let current = null, lastValue = '', seen = false, pairingFinished = false, generation = 0;
   function invalidate() { current = null; }
   function beginTransport() { invalidate(); lastValue = ''; seen = false; pairingFinished = false; }
   function snapshot() {
@@ -26,7 +26,7 @@ export function createQrLifecycle({clock = () => performance.now()} = {}) {
       lastValue = update.qr;
       seen = true;
       const createdAt = clock();
-      current = Object.freeze({value: update.qr, createdAt, expiresAt: createdAt + QR_LOCAL_TTL_MS});
+      current = Object.freeze({value: update.qr, generation: ++generation, createdAt, expiresAt: createdAt + QR_LOCAL_TTL_MS});
     }
     // Duplicate events never extend or resurrect an expired/invalidated QR.
   }

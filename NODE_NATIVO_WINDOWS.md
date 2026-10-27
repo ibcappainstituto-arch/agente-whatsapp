@@ -9,7 +9,7 @@ O launcher separado `INICIAR_NODE.ps1` depende da correção `PYTHON_WINDOWS.ps1
 
 Após configurações previamente autorizadas, mantém os consentimentos separados PAREAR e ENVIAR do launcher original. Não criar nova fonte: usar a pasta conhecimento_agente que o usuário já preparou. A importação e aprovação continuam etapas explícitas. Este launcher não cria segredo ou configuração por conta própria.
 
-API local em http://127.0.0.1:3210; `/health` é diagnóstico, não há painel de gestão web. `/qr.svg` exige token e QR é privado, não deve aparecer na aula. Variáveis do processo Node recebem token/allowlist já autorizados; o ambiente do launcher é restaurado. Sessão e journal ficam em `dados/gateway-node`, separados do volume Docker e protegidos pelo .gitignore existente. DATA_DIR absoluto é obrigatório; não há fallback para pasta raiz do Windows.
+API local em http://127.0.0.1:3210; `/health` é diagnóstico, não há painel de gestão web. `/qr/frame` exige token; o visualizador local mantém PNG só em memória. QR é privado, não deve aparecer na aula. Variáveis do processo Node recebem token/allowlist já autorizados; o ambiente do launcher é restaurado. Sessão e journal ficam em `dados/gateway-node`, separados do volume Docker e protegidos pelo .gitignore existente. DATA_DIR absoluto é obrigatório; não há fallback para pasta raiz do Windows.
 
 O servidor usa loopback por padrão. Compose recebe somente uma variável de bind para preservar a conectividade dentro do container existente, sem mudar sua publicação 127.0.0.1. Isso é ajuste de fonte para compatibilidade, não alteração do Docker Desktop/WSL. Nenhum socket Docker foi acessado nesta alternativa.
 
@@ -28,6 +28,8 @@ Continua NÃO validado: Baileys conectado, pareamento e envio. Instalação/impo
 
 Baileys é a biblioteca do gateway implementado neste kit. Referências ao OpenWA em materiais históricos não significam que o pacote OpenWA seja usado nesta versão.
 
-## Bloqueio de prontidão após o piloto
+## Prontidão após a correção offline
 
-Antes de qualquer novo pareamento, leia QR_DIAGNOSTICO_20261027.md. O gateway foi corrigido offline para não fornecer QR localmente após15s/invalidação; isso não corrige nem comprova a conexão real. Não entregue QR por chat. Visualizador privado LOCAL com atualização por eventos e remoção na expiração/desconexão ainda precisa ser implementado/validado; os SVG estáticos dos launchers não atendem ao requisito. Pare na preparação offline até cumprir esse critério e obter autorização para ensaio ponta a ponta. Não anunciar o agente pronto nem iniciar nova demonstração automática.
+O visualizador privado local foi implementado em `qr_viewer.py`, com PNG somente em memória, prazo local visível e retirada ao expirar, perder foco ou observar desconexão. Leia [VISUALIZADOR_QR_PRIVADO.md](VISUALIZADOR_QR_PRIVADO.md). Não transportar QR por chat nem usar SVG estático. Os launchers opcionais agora usam esse visualizador, sem salvar imagem.
+
+Os testes de lógica/controlador/HTTP são offline; **GUI/Tk/ACL no Windows e os launchers alterados ainda precisam de validação local**. Claude gerou respostas reais externas, inclusive com marcadores de contexto simulados preservados; terminal interno do app continua não testado. Antes de novo piloto, validar a interface com conteúdo sintético e combinar ensaio real autorizado. Só considerar pronto depois de fonte aprovada, pareamento e duas trocas com resposta vista no segundo telefone. Não anunciar aula autônoma/E2E concluído.

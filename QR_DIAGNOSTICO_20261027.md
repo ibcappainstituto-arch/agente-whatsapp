@@ -31,13 +31,13 @@ A API do kit aceitava cada QR por45 segundos e ignorava a limpeza explícita `qr
 
 Mocks usam módulos falsos escritos localmente e textos sintéticos, não geram QR de pareamento real, não instalam npm e não acessam WhatsApp. As duas integrações HTTP devem rodar sequencialmente, pois usam a mesma porta3210.
 
-## Interface ainda pendente e regra de prontidão
+## Interface posterior e regra de prontidão
 
-**Uma imagem estática já salva/aberta não pode ser invalidada pela API.** Pode vencer antes de chegar pelo chat, e o navegador pode continuar mostrando o arquivo antigo. Os launchers existentes que reabrem SVG a cada35 segundos não constituem um visualizador confiável para aula.
+**Uma imagem estática já salva/aberta não pode ser invalidada pela API.** Pode vencer antes de chegar pelo chat, e o navegador pode continuar mostrando o arquivo antigo. Os launchers anteriores reabriam SVG a cada35 segundos e não constituíam um visualizador confiável para aula. A revisão posterior removeu esse percurso estático.
 
-Antes do próximo ensaio, implementar e validar um visualizador **privado no próprio computador**, que renove por eventos/versão, mostre prazo/estado verdadeiro e retire o QR ao expirar, desconectar ou perder acesso ao gateway. Sem token em query/log, compartilhamento de tela, transporte do QR por chat ou bind externo. Essa UI é trabalho técnico separado; não foi entregue por esta correção.
+O visualizador **privado no próprio computador** foi implementado posteriormente em qr_viewer.py, com versão/polling, prazo local e retirada do quadro ao expirar ou observar desconexão/falha. Precisa ainda ser validado graficamente no Windows antes de ensaio real. Sem token em query/log, compartilhamento de tela, transporte do QR por chat ou bind externo. Veja VISUALIZADOR_QR_PRIVADO.md: a integração foi testada offline, não comprova a GUI real nem pareamento.
 
-Prontidão operacional exige ainda fonte comercial explicitamente aprovada, geração Claude real, pareamento e duas trocas com contato de teste consentido, com resposta vista no segundo telefone. Cada etapa real requer autorização e horário combinado. Importação npm, health local, QR disponível, autenticação e mocks não substituem esse teste. Até lá: preparação offline e diagnóstico, não operação/aula autônoma.
+Prontidão operacional exige ainda fonte comercial explicitamente aprovada, geração pelo fluxo efetivo no app, pareamento e duas trocas com contato de teste consentido, com resposta vista no segundo telefone. Cada etapa real requer autorização e horário combinado. Importação npm, health local, QR disponível, autenticação e mocks não substituem esse teste. Até lá: preparação offline e diagnóstico, não operação/aula autônoma.
 
 ## Ressalva LID — hipótese, sem mudança de privacidade
 
