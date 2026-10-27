@@ -19,7 +19,6 @@ Contagens finais e saída dos comandos estão em `TESTES-EXECUTADOS.txt` e `gate
 - Login por assinatura real, modelo real, limites/cobrança da conta.
 - Escaneamento de QR, pareamento, mensagem WhatsApp real ou entrega no celular.
 - Canal com JIDs exclusivamente LID, anexos, áudio, documentos, Google Drive, Instagram ou follow-up.
-- Publicação deste kit em repositório remoto.
 
 Não é produção homologada. O título correto é **kit de laboratório implementado com validação offline**.
 
@@ -32,3 +31,9 @@ Não é produção homologada. O título correto é **kit de laboratório implem
 
 A ausência de API paga no código não garante que recursos de cobrança extra pré-ativados na conta estejam desligados.
 O titular deve verificar isso no fornecedor. O kit não lê nem altera configurações privadas de billing.
+
+## Publicação do código
+
+Publicado em 26/10/2026 no repositório público `ibcappainstituto-arch/agente-whatsapp`.
+Primeiro commit do kit: `f4f000435a395518ea77f3f8035c2c62e9feb1ec`.
+A branch remota e os hashes Git dos 31 arquivos foram conferidos. Publicação não substitui os testes reais pendentes acima.
