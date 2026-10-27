@@ -9,6 +9,7 @@ services:
       ALLOWED_NUMBERS: ${ALLOWED_NUMBERS:-}
       WHATSAPP_PAIRING_CONSENT: ${WHATSAPP_PAIRING_CONSENT:-NAO}
       DATA_DIR: /data
+      GATEWAY_BIND_HOST: 0.0.0.0
     volumes:
       - whatsapp_private:/data
     restart: "no"

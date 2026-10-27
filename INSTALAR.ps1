@@ -25,4 +25,4 @@ Write-Host '1. Revise fonte_comercial\REVISAO.md e servicos.csv contra seus Mark
 Write-Host '2. Resolva somente lacunas indicadas; nada foi inventado ou aprovado automaticamente.'
 Write-Host '3. Para aprovar conscientemente: python agente.py hash-fonte'
 Write-Host '   Depois: python agente.py aprovar-fonte --sha256 HASH_QUE_VOCE_REVISOU'
-Write-Host '4. Leia INSTALAR_WINDOWS.md antes de executar .\INICIAR.ps1.'
+Write-Host '4. Leia INSTALAR_WINDOWS.md e NODE_NATIVO_WINDOWS.md. Node recomendado: .\INICIAR_NODE.ps1; Docker opcional: .\INICIAR.ps1.'

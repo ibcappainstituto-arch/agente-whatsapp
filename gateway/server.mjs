@@ -2,14 +2,17 @@
 import http from 'node:http';
 import { createHash } from 'node:crypto';
 import { mkdirSync, existsSync, readFileSync, writeFileSync, renameSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, isAbsolute } from 'node:path';
 import { allowlist, authorized, normalize, verifySend, mayRestartTransport, TTL_SECONDS } from './guard.mjs';
 
 const token = process.env.GATEWAY_TOKEN || '';
 if (!/^[A-Za-z0-9_-]{32,256}$/.test(token)) throw new Error('GATEWAY_TOKEN must be 32+ random URL-safe characters.');
 const allowed = allowlist(process.env.ALLOWED_NUMBERS || '');
 const consent = process.env.WHATSAPP_PAIRING_CONSENT === 'SIM';
-const dataDir = process.env.DATA_DIR || '/data';
+const dataDir = process.env.DATA_DIR;
+if (!dataDir || !isAbsolute(dataDir)) throw new Error('DATA_DIR must be an explicit absolute private path.');
+const bindHost = process.env.GATEWAY_BIND_HOST || '127.0.0.1';
+if (!['127.0.0.1', '0.0.0.0'].includes(bindHost)) throw new Error('Invalid gateway bind host.');
 mkdirSync(dataDir, { recursive: true, mode: 0o700 });
 const stateFile = join(dataDir, 'send-journal.json');
 // Corrupt journal is fatal: never silently discard uncertain sends and retry them.
@@ -116,7 +119,7 @@ const server = http.createServer(async (req, res) => {
 });
 server.requestTimeout = 15000;
 server.headersTimeout = 10000;
-server.listen(3210, '0.0.0.0', () => console.log('Gateway HTTP ready; host access must be loopback only.'));
+server.listen(3210, bindHost, () => console.log('Gateway HTTP ready; host access must be loopback only.'));
 
 async function connect(allowPairing = true) {
   if (!consent || !allowed.size) { status = !consent ? 'consent_required' : 'allowlist_required'; return; }

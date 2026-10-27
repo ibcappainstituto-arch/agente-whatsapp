@@ -1,26 +1,27 @@
-# 02 — Usar o kit Windows implementado, depois de revisar o conhecimento
+> Nome de arquivo mantido para compatibilidade com links anteriores. O percurso principal agora é Claude Code, sem instalador Windows.
+
+# 02 — Rodar o projeto pelo Claude Code
 
 Repositório correto: https://github.com/ibcappainstituto-arch/agente-whatsapp
 
-Baixe o código desse repositório em uma pasta nova ou clone com Git. Abra essa pasta no Claude Code ou Codex.
-O kit já contém agente Python, adaptadores CLI e gateway Baileys; **não é pedido para implementar do zero**.
-Não use o repositório antigo, o commit OpenWA antigo, Zernio ou instalador Linux.
-Aplicativo aberto não prova que o CLI está instalado, autenticado por assinatura e com cota disponível.
+Abra a pasta deste repositório no **Claude Code autenticado**. Não há aplicativo Windows para instalar, wizard obrigatório ou Docker obrigatório. O Claude Code conduz os processos Node/Python deste projeto. O WhatsApp continua dependendo do gateway Baileys real; não é uma integração nativa do Claude.
 
-Cole no assistente com a pasta do novo repositório aberta:
+Cole na conversa do Claude Code, com a pasta do projeto aberta:
 
 ```text
-Quero preparar o kit deste repositório no meu Windows: https://github.com/ibcappainstituto-arch/agente-whatsapp . Leia README.md e INSTALAR_WINDOWS.md da pasta que abri. Use o código implementado nesta pasta; não refaça o agente do zero nem use outro repositório. Preserve qualquer instalação anterior.
+Quero rodar este projeto aqui, pelo Claude Code: https://github.com/ibcappainstituto-arch/agente-whatsapp . Leia README.md e COMECE_NO_CLAUDE_CODE.md da pasta aberta. Use o código já implementado; não crie instalador de Windows, wizard nem Docker obrigatório. Faça você a preparação técnica e conduza os processos Node e Python do próprio projeto. Scripts PowerShell são suporte opcional, não o passo que devo executar.
 
-Primeiro localize comigo a pasta conhecimento_agente já criada pelo COMANDO_01_SALVAR_CONHECIMENTO.md e confira os seis Markdown. Se eu ainda não os revisei, aguarde minha revisão. Não peça para redigitar tudo em CSV: use importar_conhecimento.py para gerar a proposta rastreável, preservando os originais. Dados PENDENTES ou conflitantes não viram preço, prazo ou promessa. Mostre a proposta e peça aprovação comercial explícita antes de registrar o SHA.
+Aproveite a pasta conhecimento_agente que já preparei com os seis Markdown. Localize-a comigo se o caminho não estiver claro. Preserve originais e decisões confirmadas; não peça para redigitar tudo em CSV. Use o importador do projeto para propor o catálogo rastreável, indique somente lacunas e peça minha revisão comercial antes de registrar aprovação. Nada PENDENTE vira preço, prazo, condição ou promessa.
 
-Confira Python, Docker Desktop Linux containers, Compose e qual motor escolho: Claude Code nativo ou Codex. Verifique o CLI no PATH e a autenticação por assinatura, não apenas o aplicativo aberto. Execute os testes locais e siga o procedimento de preparação do INSTALAR_WINDOWS.md. Não instale programas, não altere a política PowerShell e não ative bypass sem autorização específica. Se scripts forem bloqueados, use a preparação Python documentada ou pare para orientação. Não copie .claude, .codex, tokens ou sessões para Docker. Não use API paga nem fallback para outro fornecedor.
+Confira os executáveis Python, Node e Claude CLI já disponíveis. Ter o aplicativo aberto não prova login/cota do CLI. Teste o código local e confira autenticação por assinatura. Não use API paga nem fallback. Não instale programas no sistema nem altere PATH/política de execução. Se faltar uma dependência npm do projeto, explique quais pacotes e peça autorização específica antes de instalar somente em gateway. Não presuma autorização para criar ou gravar chave persistente/configuração: explique e peça essa autorização separadamente.
 
-O gateway deve ficar somente em 127.0.0.1:3210, com allowlist fechada de um contato de teste que consentiu. Explique riscos do WhatsApp não oficial. Pareamento exige minha confirmação e ação no celular; abra QR somente na minha tela privada, fora de gravação. Envios exigem minha segunda confirmação. Nunca abra atendimento a todos, nunca mande mensagem inicial, nunca faça campanha ou retomada automática.
+Depois da preparação e revisão autorizadas, conduza os processos do projeto: gateway Node e agente Python, usando apenas HTTP local 127.0.0.1:3210 e uma allowlist fechada de contato de teste consentido. Não exponha painel, token ou credenciais. Explique que Baileys é não oficial e que o código não é uma integração WhatsApp nativa do Claude Code.
 
-Só depois dessas autorizações, siga INICIAR.ps1 e acompanhe um teste real: receba uma pergunta nova do outro telefone, gere a resposta com o CLI real e confira que ela apareceu no WhatsApp desse telefone. Faça uma segunda troca para verificar contexto. Teste recusa e pedido de humano. QR conectado, logs e mocks não bastam para validar canal real. Se faltar cota/login ou alguma etapa falhar, mostre o bloqueio verdadeiro e não diga que funcionou.
+Pareamento e envio têm autorizações próprias. Peça minha confirmação antes de abrir QR; mostre-o apenas na tela privada e eu faço a ação no celular. Antes de qualquer resposta real, confirme comigo o contato de teste e a autorização de envio. Sem mensagens iniciais, grupos, campanha, atendimento a todos ou retomadas automáticas.
 
-Ao terminar, informe o que foi de fato verificado, o que falta e como parar; encerre o piloto salvo minha autorização para mantê-lo ativo nos mesmos contatos. Preserve conhecimento, credenciais e dados localmente; não os publique no GitHub. Não prometa resultado judicial ou condição comercial fora da fonte aprovada.
+Quando eu autorizar, acompanhe uma pergunta nova enviada pelo outro telefone: entrada no gateway, geração real pelo Claude e resposta aparecendo naquele telefone. Faça segunda troca para verificar contexto. Mock, QR conectado e log não comprovam entrega. Se faltar cota, dependência, login ou surgir erro, informe o bloqueio real; não diga que validou WhatsApp.
+
+Ao terminar, informe resultados e pendências e pare os processos que você iniciou, salvo minha autorização para mantê-los nos mesmos contatos. Não publique conhecimento, configuração, chave, sessão, mensagens ou dados pessoais no GitHub. Não copie credenciais .claude/.codex para o projeto ou para containers.
 ```
 
-Estado em 27/10/2026: 43 testes Python passaram no Windows, Codex por assinatura gerou resposta real e Claude teve autenticação confirmada (geração Claude não testada). Também passaram 43 testes Python, 17 Node e integração HTTP mockada no workspace Linux. PowerShell 5.1 bloqueou scripts por política, sem bypass; daemon Docker permaneceu indisponível. Preparação completa, build, QR e WhatsApp real ainda não validados. Cada aluno precisa verificar seu próprio ambiente.
+Estado verificado: 43 testes Python passaram em Windows e em Linux; 17 testes Node e integração HTTP mockada passaram. Codex gerou resposta real por assinatura; Claude teve autenticação confirmada, mas geração Claude ainda não foi testada. Pacotes Baileys/qrcode reais, QR e WhatsApp real continuam pendentes nesta versão. Não confundir esses resultados com um piloto de WhatsApp concluído.

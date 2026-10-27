@@ -1,4 +1,6 @@
-# Instalar e testar no Windows — sem trocar a pasta de conhecimento
+# Referência técnica do ambiente Windows — suporte opcional
+
+**Percurso principal: abrir a pasta no Claude Code e seguir COMECE_NO_CLAUDE_CODE.md.** Este arquivo não exige instalar um aplicativo Windows ou executar wizard. Scripts PowerShell são suporte opcional para o assistente, se a política existente permitir.
 
 ## Antes de começar
 
@@ -7,14 +9,15 @@ Docker Linux para o cérebro nem o `main` Zernio supondo que sejam esta versão.
 Extraia o ZIP em uma pasta local, fora de OneDrive/Dropbox, por exemplo uma pasta privada de laboratório.
 Não copie `.env`, números, sessões ou tokens da instalação antiga.
 
-Arquitetura: **WhatsApp ⇄ Baileys no Docker ⇄ HTTP 127.0.0.1:3210 ⇄ Python Windows ⇄ Claude Code/Codex Windows**.
+Arquitetura recomendada: **WhatsApp ⇄ Baileys/Node no Windows ⇄ HTTP 127.0.0.1:3210 ⇄ Python Windows ⇄ Claude Code/Codex Windows**. Docker é opcional, somente para quem escolher executar o gateway em container.
 O token do gateway é um segredo local criado pelo kit, não uma chave de API comercial.
 Os logins de IA ficam onde os CLIs oficiais os guardam. Nada monta essas credenciais no container.
 
 Requisitos que o kit **não instala silenciosamente**:
 
 - Windows com Python 3.10+ oficial funcional por `python` ou `py -3`. Os scripts detectam a opcao funcional, sem instalar nada.
-- Docker Desktop oficial aberto, em modo **Linux containers**, com Compose.
+- Recomendado: Node >=22 já instalado; dependências locais exatas `baileys@7.0.0-rc14` e `qrcode@1.5.4` após autorização específica. Consulte [NODE_NATIVO_WINDOWS.md](NODE_NATIVO_WINDOWS.md).
+- Opcional: Docker Desktop oficial aberto em modo **Linux containers**, com Compose, se escolher esse caminho em vez de Node direto.
 - **Um** CLI oficial atual: Codex autenticado com ChatGPT ou Claude Code nativo autenticado com Claude.ai.
 - Conta de teste WhatsApp e um segundo número que consentiu em participar do teste.
 - Assinatura compatível disponível e sem limite esgotado. Assinatura não equivale a uso ilimitado;
@@ -36,7 +39,7 @@ Se a política atual do seu Windows permitir scripts locais, abra PowerShell **n
 ```
 
 Nenhum script deste kit altera a política de execução. Se o Windows bloquear scripts, **não altere nem contorne a política automaticamente**. Use os comandos Python de preparação abaixo ou peça orientação ao administrador. Qualquer mudança de política precisa de autorização específica do titular/administrador; ela não faz parte desta instalação.
-Esse script é local e inspecionável. Roda testes offline, configura o motor e pede somente números de teste consentidos.
+Esse script é local e inspecionável. Antes de executá-lo, autorize a preparação local: ele roda testes offline e cria configuração/chave privada do gateway, pedindo o motor e somente números de teste consentidos.
 **Não instala Docker, não inicia o gateway, não mostra QR e não envia WhatsApp.**
 
 Ao pedir a pasta, informe o caminho da **`conhecimento_agente` que você já criou** com:
@@ -91,17 +94,16 @@ python agente.py verificar
 Essa aprovação não autoriza pareamento nem envio. Qualquer mudança posterior no catálogo ou nos Markdown copiados
 bloqueia o agente até nova revisão. O original `conhecimento_agente` não é alterado pelo kit.
 
-## 3. Parear privadamente e liberar um teste supervisionado
+## 3. Parear privadamente e liberar um teste supervisionado — Node recomendado
 
 Execute o script abaixo somente se a política atual do Windows permitir. Se bloqueado, pare e obtenha orientação/autorização específica; o assistente não deve ativar bypass por conta própria.
 
 ```powershell
-.\INICIAR.ps1
+.\INICIAR_NODE.ps1
 ```
 
-1. O script verifica fonte, login por assinatura, Docker/Compose e exibe a lista fechada de números.
-2. Só a palavra **PAREAR** autoriza construir o gateway e conectar a conta de teste. O primeiro build baixa
-   imagem Node e dependências; essa etapa ainda precisa ser validada no Windows do aluno.
+1. O script verifica Node, dependências locais exatas, porta livre, fonte e login por assinatura; exibe a lista fechada de números. Não roda npm nem instala nada.
+2. Só a palavra **PAREAR** autoriza iniciar o gateway e conectar a conta de teste. Se as dependências estiverem ausentes, pare e obtenha autorização específica para instalá-las; não use instalação silenciosa.
 3. O QR é aberto em arquivo SVG privado. **Pare o compartilhamento de tela antes.** No WhatsApp,
    use Aparelhos conectados e escaneie no seu próprio computador. Não envie QR por chat, slide ou grupo.
 4. Após a conexão, só a palavra **ENVIAR** libera respostas a novas entradas dessa allowlist durante a sessão.
@@ -110,8 +112,11 @@ Execute o script abaixo somente se a política atual do Windows permitir. Se blo
 7. Ctrl+C encerra o agente; o script retira autorização de envio, para o gateway e remove o arquivo QR.
 
 O pareamento e o uso extra do plano pertencem ao titular da conta. Não conecte número principal de trabalho sem avaliar risco.
-A sessão WhatsApp permanece no volume privado após `docker compose down`; para revogar, desconecte o dispositivo no próprio WhatsApp.
-Não use `docker compose down -v` sem decidir conscientemente apagar a sessão e seu journal de segurança.
+No caminho Node, a sessão e o journal permanecem em `dados/gateway-node`; para revogar, desconecte o dispositivo no próprio WhatsApp. Não apague essa pasta sem decidir conscientemente perder sessão e journal.
+
+### Docker opcional
+
+Se você escolher Docker e ele já estiver pronto, use `.\INICIAR.ps1` em vez do launcher Node. Ele verifica Docker/Compose e a confirmação PAREAR autoriza build do gateway, que baixa imagem e dependências. Não use os dois launchers juntos. `docker compose down` preserva a sessão no volume privado; não use `down -v` sem decidir apagar sessão/journal. O caminho Docker continua não validado neste ambiente.
 
 ## 4. Roteiro mínimo do primeiro teste real — ainda pendente
 
@@ -135,7 +140,7 @@ Até esse teste terminar, diga **“implementado e testado offline”**, nunca �
 - Conversa pausada: consulte `dados/agente.sqlite3` localmente; não existe comando de retomada automática neste escopo.
 - Sintaxe dos três scripts e detector Python foram verificados em Windows real. PowerShell 5.1 bloqueou os scripts por política; ela não foi alterada. A execução completa de preparação/pareamento não foi feita. Não execute como administrador nem ative bypass para “resolver” falha desconhecida.
 
-Dados privados: `.env`, `config.local.json`, `dados/`, `fonte_comercial/` preenchida e volume Docker.
+Dados privados: `.env`, `config.local.json`, `dados/`, `fonte_comercial/` preenchida e volume Docker, se utilizado.
 Não publique esses itens em GitHub, ZIP compartilhado ou tela de aula.
 
 

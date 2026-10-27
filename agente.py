@@ -203,7 +203,7 @@ def main():
             catalogo.aprovar(ROOT/'fonte_comercial',a.sha256); print('Fonte revisada. Pareamento e envios permanecem separados.')
         else: iniciar()
     except KeyboardInterrupt:
-        print('\nAgente parado. Gateway pode continuar pareado; use docker compose down.'); return 130
+        print('\nAgente parado. Gateway pode continuar pareado; encerre pelo launcher Node ou Docker que voce iniciou.'); return 130
     except Exception as e:
         print('Operacao bloqueada:',type(e).__name__,str(e) if isinstance(e,ValueError) else 'Confira requisitos, autenticacao, limites e gateway; segredos nao serao exibidos.',file=sys.stderr); return 1
     return 0

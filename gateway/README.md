@@ -1,6 +1,6 @@
 # Gateway Baileys — componente de laboratório
 
-O cérebro roda no Windows; apenas o canal roda neste container. Não é WhatsApp Business Platform oficial. A biblioteca pode deixar de funcionar e a conta pode sofrer restrições. Use uma conta de laboratório e destinatários que consentiram. Não conecte o número principal em uma aula sem avaliar esse risco.
+O cérebro roda no Windows. O canal usa este gateway Baileys em Node local (recomendado no Windows) ou, opcionalmente, no container Docker. Não é WhatsApp Business Platform oficial. A biblioteca pode deixar de funcionar e a conta pode sofrer restrições. Use uma conta de laboratório e destinatários que consentiram. Não conecte o número principal em uma aula sem avaliar esse risco.
 
 ## Estado de validação
 
@@ -17,7 +17,7 @@ O cérebro roda no Windows; apenas o canal roda neste container. Não é WhatsAp
 - `ALLOWED_NUMBERS`: números E164 explícitos separados por vírgula. Exemplo estrutural: `+<país><DDD><número>` (não copie os colchetes). Vazio = ninguém. Nunca `*`.
 - `WHATSAPP_PAIRING_CONSENT=SIM`: somente após consentimento do dono da conta. Padrão `NAO` não abre conexão WhatsApp nem gera QR.
 
-Não há mapeamento de `.codex`, `.claude`, home do Windows ou tokens de IA. Sessão WhatsApp e journal ficam apenas no volume Docker `whatsapp_private`.
+Não há mapeamento de `.codex`, `.claude`, home do Windows ou tokens de IA. No Node local, sessão WhatsApp/journal ficam em `dados/gateway-node`; no Docker opcional, ficam no volume `whatsapp_private`. Nunca publicar essas pastas.
 
 ## API (127.0.0.1:3210)
 

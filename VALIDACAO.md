@@ -51,3 +51,12 @@ O titular deve verificar isso no fornecedor. O kit não lê nem altera configura
 Publicado em 26/10/2026 no repositório público `ibcappainstituto-arch/agente-whatsapp`.
 Primeiro commit do kit: `f4f000435a395518ea77f3f8035c2c62e9feb1ec`.
 A branch remota e os hashes Git dos 31 arquivos foram conferidos. Publicação não substitui os testes reais pendentes acima.
+
+## Node direto no Windows — 27/10/2026
+
+- Node 24.15.0/npm 11.17.0 já instalados; nenhuma instalação foi realizada para esse teste.
+- `INICIAR_NODE.ps1` adicionado: sem Docker, npm automático, mudanças de política ou criação automática de segredo. Recusa pacotes ausentes/versões divergentes antes de configuração/pareamento.
+- Servidor com bind padrão127.0.0.1 e DATA_DIR absoluto explícito; Compose mantém bind interno0.0.0.0 apenas para publicação externa127.0.0.1.
+- Windows: 43 testes Python,17 regras Node,sintaxe e integração HTTP mockada passaram. Launcher real parou ao encontrar baileys ausente.
+- Pacotes reais baileys7.0.0-rc14/qrcode1.5.4 e árvore npm não instalados/validados; nenhum QR, sessão WhatsApp ou mensagem real.
+- Caminho Node recomendado reduz pré-requisitos; não transforma mock em canal real validado.

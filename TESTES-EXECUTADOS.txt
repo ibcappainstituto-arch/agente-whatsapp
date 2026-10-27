@@ -65,3 +65,9 @@ Teste symlink: no Windows sem privilegio apenas esse caso sera SKIP; teste de se
 Codex CLI autenticado geracao real ok_sintetico exit0: PASS. Claude login: PASS, geracao nao testada.
 PowerShell5.1 bloqueou scripts por politica; sem bypass. Dockerdaemonpipe ausente; sem QR/envio.
 Apos integrar patch no cloud Linux: 43 Python +17 Node +HTTP mock PASS; py_compile/node --check PASS.
+
+27/10/2026 — NODE NATIVO WINDOWS
+43Python+17Node,sintaxePS/JS e HTTPmockWindows: PASS conforme executor local.
+Launcher recusou baileys ausente antes de config/pareamento. Node24.15/npm11.17 existentes.
+Nenhum npm install, dependencias reais, QR ou WhatsApp real executados.
+Apos integrar Node nativo em cloud Linux:43Python+17Node+HTTPmock+py_compile+node --check PASS.
